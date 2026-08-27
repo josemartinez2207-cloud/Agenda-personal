@@ -148,6 +148,53 @@ main{padding-bottom:calc(96px + var(--safe-b))}
 .c-PERSONAL{background:var(--t-personal);border-left-color:var(--t-personal)}
 .barra.c-REUNION,.barra.c-RECORDATORIO,.barra.c-TAREA,.barra.c-ENTREGA,.barra.c-PERSONAL{background:var(--papel)}
 
+/* ===== SELECTOR DE VISTA ===== */
+#cambiaVista{display:flex;gap:6px;padding:9px 12px;background:var(--tarjeta);border-bottom:1px solid var(--linea)}
+#cambiaVista button{flex:1;padding:7px 4px;border-radius:9px;font-size:.75rem;font-weight:700;color:var(--suave);border:1px solid var(--linea);background:var(--papel)}
+#cambiaVista button.on{background:var(--indigo);border-color:var(--indigo);color:#fff}
+html[data-tema="oscuro"] #cambiaVista button.on{color:var(--oro-claro)}
+
+/* ===== HORARIO (semana y día) ===== */
+.hcab{display:flex;position:sticky;top:0;z-index:5;background:var(--tarjeta);border-bottom:1px solid var(--linea)}
+.hesq{width:42px;flex:none}
+.hdia{flex:1;min-width:0;text-align:center;padding:6px 1px;border-left:1px solid var(--linea)}
+.hdia b{display:block;font-size:.58rem;letter-spacing:1.2px;text-transform:uppercase;color:var(--suave);font-weight:700}
+.hdia .n{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-size:.84rem;font-weight:700;margin-top:2px}
+.hdia.hoy .n{background:var(--hoy-fondo);color:var(--hoy-texto)}
+.hdia.fer b{color:var(--t-entrega)}
+.htodo{display:flex;border-bottom:1px solid var(--linea);background:var(--papel);min-height:22px}
+.htodo .hesq{font-size:.54rem;color:var(--tenue);display:grid;place-items:center;text-align:center;line-height:1.1}
+.htodo .cel{flex:1;min-width:0;border-left:1px solid var(--linea);padding:2px}
+.htodo .mini-ev{font-size:.55rem;padding:1px 3px;border-radius:3px;border-left:3px solid;background:var(--tarjeta);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:1px}
+.hcuerpo{display:flex;position:relative}
+.hhoras{width:42px;flex:none}
+.hhoras div{height:46px;font-size:.56rem;color:var(--tenue);text-align:right;padding-right:5px;transform:translateY(-6px);white-space:nowrap}
+.hcols{flex:1;display:flex;position:relative;min-width:0}
+.hcol{flex:1;min-width:0;position:relative;border-left:1px solid var(--linea)}
+.hlinea{height:46px;border-bottom:1px solid var(--linea)}
+.hlinea.media{border-bottom-style:dotted;opacity:.55}
+.bloque{position:absolute;border-radius:6px;padding:3px 4px;overflow:hidden;font-size:.6rem;line-height:1.2;color:#fff;box-shadow:0 1px 3px rgba(0,0,0,.22)}
+.bloque b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:.62rem;font-weight:700;line-height:1.15}
+.bloque small{opacity:.85;font-size:.55rem}
+.bloque.hecho-tachado{opacity:.42}
+.bloque.choca{box-shadow:0 0 0 2px var(--t-entrega)}
+.ahora{position:absolute;left:0;right:0;height:2px;background:var(--t-entrega);z-index:4;pointer-events:none}
+.ahora::before{content:'';position:absolute;left:-4px;top:-3px;width:8px;height:8px;border-radius:50%;background:var(--t-entrega)}
+.choques{margin:10px 12px;border:1px solid var(--t-entrega);border-left:4px solid var(--t-entrega);border-radius:11px;padding:10px 12px;background:var(--tarjeta);font-size:.78rem}
+.choques b{color:var(--t-entrega)}
+
+/* ===== VISTA DE AÑO ===== */
+#anual{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px}
+@media (max-width:359px){#anual{grid-template-columns:repeat(2,1fr)}}
+.mini-mes{background:var(--tarjeta);border:1px solid var(--linea);border-radius:11px;padding:7px 6px}
+.mini-mes h5{font-size:.66rem;letter-spacing:.8px;text-transform:uppercase;color:var(--suave);text-align:center;margin:0 0 4px;font-weight:700;font-family:var(--sans)}
+.mini-rej{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}
+.mini-rej span{font-size:.5rem;text-align:center;padding:1px 0;border-radius:3px;color:var(--texto);position:relative}
+.mini-rej span.vacio2{opacity:0}
+.mini-rej span.con{font-weight:800;color:var(--t-tarea)}
+.mini-rej span.hoy{background:var(--hoy-fondo);color:var(--hoy-texto);font-weight:800}
+.mini-rej span.fer{color:var(--t-entrega)}
+
 /* ===== LEYENDA ===== */
 .leyenda{display:flex;flex-wrap:wrap;gap:10px 14px;padding:12px;font-size:.72rem;color:var(--suave)}
 .leyenda span{display:flex;align-items:center;gap:6px}
@@ -271,6 +318,46 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
 .interruptor.on::after{transform:translateX(19px)}
 .pie-app{text-align:center;font-family:var(--serif);font-size:.76rem;color:var(--tenue);padding:22px 20px 6px}
 
+/* ===== INFORMES ===== */
+.tarjeta-inf{background:var(--tarjeta);border:1px solid var(--linea);border-radius:var(--r);margin:0 12px 10px;padding:14px}
+.tarjeta-inf h4{font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--suave);font-family:var(--sans);font-weight:700;margin-bottom:12px}
+.cifras{display:grid;grid-template-columns:repeat(auto-fit,minmax(94px,1fr));gap:9px;margin:0 12px 10px}
+.cifra{background:var(--tarjeta);border:1px solid var(--linea);border-top:3px solid var(--oro-claro);border-radius:11px;padding:13px 8px;text-align:center}
+.cifra b{display:block;font-family:var(--serif);font-size:1.7rem;line-height:1.1;font-weight:400}
+.cifra span{font-size:.6rem;letter-spacing:.8px;text-transform:uppercase;color:var(--suave)}
+.barrita{display:flex;align-items:center;gap:9px;margin-bottom:9px;font-size:.78rem}
+.barrita .et{width:34%;flex:none;color:var(--suave);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barrita .via{flex:1;height:16px;background:var(--papel);border-radius:8px;overflow:hidden}
+.barrita .via i{display:block;height:100%;border-radius:8px}
+.barrita .nm{width:26px;text-align:right;font-weight:700}
+.rosca{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.rosca svg{width:118px;height:118px;flex:none}
+.rosca ul{list-style:none;padding:0;margin:0;font-size:.76rem;flex:1;min-width:120px}
+.rosca li{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.rosca i{width:10px;height:10px;border-radius:3px;flex:none}
+
+/* ===== CANDADO ===== */
+#candado{position:fixed;inset:0;z-index:400;background:var(--indigo);color:#fff;display:none;
+  flex-direction:column;align-items:center;justify-content:center;padding:30px 22px calc(30px + var(--safe-b))}
+#candado.ver{display:flex}
+#candado h2{font-family:var(--serif);font-size:1.5rem;margin-bottom:6px}
+#candado p{color:#bdb8cc;font-size:.82rem;margin:0 0 22px}
+.puntos-pin{display:flex;gap:13px;margin-bottom:26px}
+.puntos-pin i{width:14px;height:14px;border-radius:50%;border:2px solid var(--oro-claro)}
+.puntos-pin i.on{background:var(--oro-claro)}
+.teclado{display:grid;grid-template-columns:repeat(3,74px);gap:12px}
+.teclado button{height:62px;border-radius:50%;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);
+  color:#fff;font-size:1.4rem;font-family:var(--serif)}
+.teclado button:active{background:rgba(255,255,255,.28)}
+.teclado button.txt{font-size:.8rem;font-family:var(--sans);font-weight:700;background:none;border-color:transparent}
+
+@media print{
+  #topo,#nav,#fab,#tiras,#cambiaVista,.no-imprimir,#velo,.hoja,#tostada{display:none !important}
+  body{background:#fff;color:#000}
+  .tarjeta-inf,.cifra{border-color:#999;break-inside:avoid}
+  main{padding:0}
+}
+
 /* ===== AVISO FLOTANTE ===== */
 #alarma{
   position:fixed;inset:0;z-index:300;background:var(--indigo);color:#fff;
@@ -291,10 +378,24 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
 #alarma .pila button{flex:1}
 #tostada{
   position:fixed;left:50%;bottom:calc(140px + var(--safe-b));transform:translate(-50%,14px);
-  background:var(--indigo);color:#fff;padding:11px 18px;border-radius:24px;font-size:.82rem;font-weight:600;
-  z-index:200;opacity:0;pointer-events:none;transition:.22s;max-width:88vw;text-align:center;box-shadow:var(--sombra);
+  background:var(--indigo);color:#fff;padding:10px 12px 10px 18px;border-radius:24px;font-size:.82rem;font-weight:600;
+  z-index:200;opacity:0;pointer-events:none;transition:.22s;max-width:92vw;box-shadow:var(--sombra);
+  display:flex;align-items:center;gap:12px;
 }
-#tostada.ver{opacity:1;transform:translate(-50%,0)}
+#tostada.ver{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+#tostada button{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:var(--oro-claro);
+  border-radius:16px;padding:6px 13px;font-weight:800;font-size:.76rem;white-space:nowrap}
+/* filas de alarmas del formulario */
+.fila-alarma{display:flex;gap:7px;align-items:center;margin-bottom:8px}
+.fila-alarma select{flex:1.3;padding:9px;border:1px solid var(--linea);border-radius:9px;background:var(--tarjeta);font-size:15px;min-width:0}
+.fila-alarma input{flex:1;padding:9px;border:1px solid var(--linea);border-radius:9px;background:var(--tarjeta);font-size:15px;min-width:0}
+.fila-alarma .quitar{width:34px;height:34px;flex:none;border-radius:50%;border:1px solid var(--linea);color:var(--t-entrega);display:grid;place-items:center;font-size:1.1rem;line-height:1}
+.acuerdo{display:flex;gap:9px;align-items:flex-start;background:var(--tarjeta);border:1px solid var(--linea);border-radius:11px;padding:10px;margin-bottom:8px}
+.acuerdo .cuerpo{flex:1;min-width:0}
+.acuerdo input[type=text]{width:100%;border:none;background:none;padding:0;font-size:.92rem}
+.acuerdo input.resp{font-size:.75rem;color:var(--suave);margin-top:3px}
+.acuerdo .quitar{color:var(--t-entrega);font-size:1.1rem;flex:none}
+.linea-hist{font-size:.74rem;color:var(--suave);border-left:2px solid var(--linea);padding-left:10px;margin-bottom:6px}
 
 @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
 </style>
@@ -321,7 +422,16 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
 <main>
   <!-- ====== MES ====== -->
   <section id="p-mes" class="pantalla viva">
+    <div id="cambiaVista">
+      <button data-v="mes" class="on">Mes</button>
+      <button data-v="semana">Semana</button>
+      <button data-v="dia">Día</button>
+      <button data-v="anio">Año</button>
+    </div>
+    <div id="avisoChoques"></div>
     <div id="rejilla"></div>
+    <div id="horario" hidden></div>
+    <div id="anual" hidden></div>
     <div class="leyenda">
       <span><i class="c-REUNION"></i>Reunión</span>
       <span><i class="c-RECORDATORIO"></i>Recordatorio</span>
@@ -343,6 +453,11 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
     <div id="listaAvisos"></div>
   </section>
 
+  <!-- ====== INFORMES ====== -->
+  <section id="p-informes" class="pantalla">
+    <div id="cuerpoInformes"></div>
+  </section>
+
   <!-- ====== AJUSTES ====== -->
   <section id="p-mas" class="pantalla">
     <div class="grupo">Avisos</div>
@@ -355,6 +470,14 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
       <span class="fl"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 010 6"/><path d="M19 6a8 8 0 010 12"/></svg></span>
       <div class="txt"><h4>Alarma con sonido</h4><p>Suena y vibra al llegar la hora</p></div>
       <span class="interruptor" id="swSonido"></span>
+    </div>
+    <div class="opcion" id="opSilencio">
+      <span class="fl"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 00-9.3-5"/><path d="M6 9v2c0 5-2 6-2 6h13"/><path d="M3 3l18 18"/></svg></span>
+      <div class="txt"><h4>Horas de silencio</h4><p id="txtSilencio">Apagado</p></div>
+    </div>
+    <div class="opcion" id="opResumen">
+      <span class="fl"><svg viewBox="0 0 24 24"><path d="M5 3h14v18l-7-4-7 4z"/></svg></span>
+      <div class="txt"><h4>Resumen del día</h4><p id="txtResumen">Apagado</p></div>
     </div>
     <div class="opcion" id="opICS">
       <span class="fl"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/><path d="M12 14v4M10 16h4"/></svg></span>
@@ -383,6 +506,23 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
       <span class="fl"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h8"/></svg></span>
       <div class="txt"><h4>Copiar agenda del mes</h4><p>Para pegarla en un correo o mensaje</p></div>
     </div>
+    <div class="opcion" id="opInformes">
+      <span class="fl"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+      <div class="txt"><h4>Informes</h4><p>Cumplidas, atrasos y carga de trabajo</p></div>
+    </div>
+    <div class="opcion" id="opPapelera">
+      <span class="fl"><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M6 6l1 14h10l1-14"/><path d="M12 10v6"/></svg></span>
+      <div class="txt"><h4>Papelera y respaldos</h4><p id="txtPapelera">Nada borrado</p></div>
+    </div>
+    <div class="opcion" id="opPin">
+      <span class="fl"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></span>
+      <div class="txt"><h4>Bloqueo con PIN</h4><p id="txtPin">Sin bloqueo</p></div>
+    </div>
+    <div class="opcion" id="opFeriados">
+      <span class="fl"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></span>
+      <div class="txt"><h4>Días feriados</h4><p>Marcar los feriados de El Salvador</p></div>
+      <span class="interruptor" id="swFeriados"></span>
+    </div>
     <div class="opcion" id="opTitular">
       <span class="fl"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.5-6 7-6s7 2 7 6"/></svg></span>
       <div class="txt"><h4>Nombre en la barra</h4><p id="txtTitular">Sin nombre</p></div>
@@ -410,6 +550,17 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
   <div class="asa"></div>
   <div class="hoja-cab"><h3 id="hojaTitulo"></h3><button class="cerrar" id="hojaCerrar"><svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="hoja-cuerpo" id="hojaCuerpo"></div>
+</div>
+<div id="candado">
+  <h2>Agenda bloqueada</h2>
+  <p id="candadoTexto">Escribe tu PIN de 4 cifras</p>
+  <div class="puntos-pin" id="puntosPin"><i></i><i></i><i></i><i></i></div>
+  <div class="teclado" id="teclado">
+    <button>1</button><button>2</button><button>3</button>
+    <button>4</button><button>5</button><button>6</button>
+    <button>7</button><button>8</button><button>9</button>
+    <button class="txt" data-a="borrar">Borrar</button><button>0</button><button class="txt" data-a="ok">Entrar</button>
+  </div>
 </div>
 <div id="alarma">
   <span class="campana">🔔</span>
@@ -447,6 +598,8 @@ let mesVista = new Date().getMonth();
 let anhoVista = new Date().getFullYear();
 let diaElegido = null;
 let pantalla = 'mes';
+let vistaCal = 'mes';   // mes | semana | dia | anio
+let foco = '';          // día de referencia para semana y día
 let modoFiltro = 'TODOS';
 let textoBuscar = '';
 let editandoId = null;
@@ -474,8 +627,138 @@ function guardar(){
 function cargar(){
   try{
     const crudo = localStorage.getItem(LLAVE);
-    if(crudo){ const d = JSON.parse(crudo); eventos = d.eventos || []; }
+    if(crudo){ const d = JSON.parse(crudo); eventos = (d.eventos || []).map(normalizar); }
   }catch(e){ eventos = []; }
+}
+/* Completa los campos que no existían en versiones anteriores. */
+function normalizar(e){
+  e.hechos = e.hechos || {}; e.vistas = e.vistas || {};
+  e.excepciones = e.excepciones || {}; e.pospuesto = e.pospuesto || {};
+  e.historial = e.historial || []; e.actas = e.actas || {};
+  if(e.alarmaHora === undefined) e.alarmaHora = true;
+  if(!Array.isArray(e.alarmas)){
+    e.alarmas = (e.alerta === false) ? []
+      : [{dias: (e.avisoDias === undefined ? 1 : +e.avisoDias), hora: e.alertaHora || '08:00'}];
+  }
+  e.alerta = e.alarmas.length > 0;
+  return e;
+}
+
+/* ---------- 1b. CONFIGURACIÓN ---------- */
+const CFG_LLAVE = 'agendaConfig1';
+let cfg = {
+  noMolestar: {activo:false, desde:'21:00', hasta:'06:30', finDeSemana:false},
+  resumen:    {activo:false, hora:'07:00'},
+  feriados:   true,
+  horaIni:    7,
+  horaFin:    20,
+  pin:        ''
+};
+function guardarCfg(){ try{ localStorage.setItem(CFG_LLAVE, JSON.stringify(cfg)); }catch(e){} }
+function cargarCfg(){
+  try{
+    const c = JSON.parse(localStorage.getItem(CFG_LLAVE) || '{}');
+    if(c.noMolestar) Object.assign(cfg.noMolestar, c.noMolestar);
+    if(c.resumen) Object.assign(cfg.resumen, c.resumen);
+    if(c.feriados !== undefined) cfg.feriados = c.feriados;
+    if(c.horaIni !== undefined) cfg.horaIni = +c.horaIni;
+    if(c.horaFin !== undefined) cfg.horaFin = +c.horaFin;
+    if(c.pin !== undefined) cfg.pin = c.pin;
+  }catch(e){}
+}
+
+/* ---------- 1c. PAPELERA Y RESPALDO AUTOMÁTICO ---------- */
+const PAP_LLAVE = 'agendaPapelera1';
+const RESP_LLAVE = 'agendaRespaldos1';
+let papelera = [];
+
+function cargarPapelera(){
+  try{ papelera = JSON.parse(localStorage.getItem(PAP_LLAVE) || '[]'); }catch(e){ papelera = []; }
+}
+function guardarPapelera(){
+  try{ localStorage.setItem(PAP_LLAVE, JSON.stringify(papelera.slice(0,40))); }catch(e){}
+}
+function aPapelera(e, motivo){
+  papelera.unshift({e: JSON.parse(JSON.stringify(e)), cuando: Date.now(), motivo: motivo || ''});
+  papelera = papelera.slice(0,40);
+  guardarPapelera();
+}
+function restaurarDePapelera(i){
+  const item = papelera[i]; if(!item) return;
+  const e = normalizar(item.e);
+  if(eventos.some(x => x.id === e.id)) e.id = Date.now();
+  eventos.push(e);
+  papelera.splice(i,1);
+  guardar(); guardarPapelera(); pintarTodo(); abrirPapelera();
+  tostada('Anotación devuelta a la agenda');
+}
+function vaciarPapelera(){
+  if(!papelera.length) return;
+  if(!confirm('¿Vaciar la papelera? Lo que hay dentro se pierde para siempre.')) return;
+  papelera = []; guardarPapelera(); abrirPapelera(); tostada('Papelera vacía');
+}
+function respaldoAuto(){
+  try{
+    const hoy = hoyISO();
+    const lista = JSON.parse(localStorage.getItem(RESP_LLAVE) || '[]');
+    if(lista.length && lista[0].fecha === hoy) return;
+    lista.unshift({fecha: hoy, cuantos: eventos.length, datos: JSON.stringify(eventos)});
+    localStorage.setItem(RESP_LLAVE, JSON.stringify(lista.slice(0,7)));
+  }catch(e){}
+}
+function respaldosAuto(){
+  try{ return JSON.parse(localStorage.getItem(RESP_LLAVE) || '[]'); }catch(e){ return []; }
+}
+function restaurarRespaldo(fecha){
+  const r = respaldosAuto().find(x => x.fecha === fecha);
+  if(!r) return;
+  if(!confirm('¿Volver a la agenda tal como estaba el '+bonita(fecha)+'? Lo de ahora se reemplaza.')) return;
+  const antes = JSON.stringify(eventos);
+  try{ eventos = JSON.parse(r.datos).map(normalizar); }catch(e){ tostada('Ese respaldo está dañado'); return; }
+  guardar(); pintarTodo(); cerrarHoja();
+  tostada('Agenda del '+bonita(fecha)+' restaurada', 'Deshacer', () => {
+    eventos = JSON.parse(antes).map(normalizar); guardar(); pintarTodo(); tostada('Se deshizo la restauración');
+  });
+}
+
+/* ---------- 1d. DÍAS FERIADOS (El Salvador) ---------- */
+let cacheFeriados = {};
+function domingoPascua(anho){
+  const a = anho % 19, b = Math.floor(anho/100), c = anho % 100;
+  const d = Math.floor(b/4), e2 = b % 4, f = Math.floor((b+8)/25), g = Math.floor((b-f+1)/3);
+  const h = (19*a + b - d - g + 15) % 30;
+  const i = Math.floor(c/4), k = c % 4;
+  const l = (32 + 2*e2 + 2*i - h - k) % 7;
+  const m = Math.floor((a + 11*h + 22*l)/451);
+  const mes = Math.floor((h + l - 7*m + 114)/31);
+  const dia = ((h + l - 7*m + 114) % 31) + 1;
+  return new Date(anho, mes-1, dia);
+}
+function feriadosDe(anho){
+  if(cacheFeriados[anho]) return cacheFeriados[anho];
+  const f = {};
+  const pon = (iso, nombre) => { f[iso] = nombre; };
+  pon(anho+'-01-01', 'Año Nuevo');
+  const pas = domingoPascua(anho);
+  const mover = n => { const d = new Date(pas); d.setDate(d.getDate()+n); return fechaISO(d); };
+  pon(mover(-3), 'Jueves Santo');
+  pon(mover(-2), 'Viernes Santo');
+  pon(mover(-1), 'Sábado Santo');
+  pon(anho+'-05-01', 'Día del Trabajo');
+  pon(anho+'-05-10', 'Día de la Madre');
+  pon(anho+'-06-17', 'Día del Padre');
+  pon(anho+'-08-03', 'Fiestas agostinas');
+  pon(anho+'-08-05', 'Fiestas agostinas');
+  pon(anho+'-08-06', 'Día del Salvador del Mundo');
+  pon(anho+'-09-15', 'Independencia');
+  pon(anho+'-11-02', 'Día de los Difuntos');
+  pon(anho+'-12-25', 'Navidad');
+  cacheFeriados[anho] = f;
+  return f;
+}
+function feriado(iso){
+  if(!cfg.feriados || !iso) return '';
+  return feriadosDe(+iso.split('-')[0])[iso] || '';
 }
 
 /* ---------- 2. FECHAS ---------- */
@@ -546,13 +829,27 @@ function alternarHecho(e, iso){
   guardar(); pintarTodo();
 }
 
-/* ---------- 4. AVISOS ---------- */
-function momentoAviso(e, iso){
+/* ---------- 4. AVISOS ----------
+   Cada anotación puede llevar varias alarmas: {dias, hora}. */
+function alarmasDe(e){
+  return (e.alarmas || []).slice().sort((a,b) => (+b.dias) - (+a.dias) || String(a.hora).localeCompare(String(b.hora)));
+}
+function momentoDe(e, iso, a){
   const f = aFecha(iso); if(!f) return null;
-  f.setDate(f.getDate() - (e.avisoDias === undefined ? 1 : +e.avisoDias));
-  const p = (e.alertaHora || '08:00').split(':');
+  f.setDate(f.getDate() - (+a.dias || 0));
+  const p = (a.hora || '08:00').split(':');
   f.setHours(+p[0]||0, +p[1]||0, 0, 0);
   return f;
+}
+function momentoAviso(e, iso){
+  const l = alarmasDe(e);
+  return l.length ? momentoDe(e, iso, l[0]) : null;
+}
+function textoAlarmas(e){
+  const l = alarmasDe(e);
+  if(!l.length) return 'sin aviso';
+  return l.map(a => (+a.dias === 0 ? 'el mismo día' :
+    (+a.dias === 1 ? '1 día antes' : a.dias + ' días antes')) + ' a las ' + hora12(a.hora)).join(' · ');
 }
 function avisoIniciado(e, iso){
   const m = momentoAviso(e, iso);
@@ -570,7 +867,8 @@ function avisosVigentes(){
     const vista = (e.vistas || {})[iso];
     if(vista === hoy) return false;              // ya la marcó como vista hoy
     if(vista && diasEntre(hoy, iso) > 0){        // la vio otro día: vuelve al día siguiente a la misma hora
-      const p = (e.alertaHora || '08:00').split(':');
+      const pa = alarmasDe(e)[0] || {hora:'08:00'};
+      const p = (pa.hora || '08:00').split(':');
       const h = aFecha(hoy); h.setHours(+p[0]||0, +p[1]||0, 0, 0);
       if(ahora < h) return false;
     }
@@ -593,23 +891,66 @@ function frasePlazo(iso, hora){
 }
 
 /* ---------- 5. CALENDARIO ---------- */
+function inicioSemana(iso){ const f = aFecha(iso); return sumarDias(iso, -f.getDay()); }
 function moverMes(n){
-  mesVista += n;
-  if(mesVista > 11){ mesVista = 0; anhoVista++; }
-  if(mesVista < 0){ mesVista = 11; anhoVista--; }
-  diaElegido = null;
+  if(pantalla === 'informes'){
+    mesVista += n;
+    if(mesVista > 11){ mesVista = 0; anhoVista++; }
+    if(mesVista < 0){ mesVista = 11; anhoVista--; }
+    document.getElementById('tituloMes').textContent = 'Informes';
+    pintarInformes();
+    return;
+  }
+  if(vistaCal === 'mes'){
+    mesVista += n;
+    if(mesVista > 11){ mesVista = 0; anhoVista++; }
+    if(mesVista < 0){ mesVista = 11; anhoVista--; }
+    diaElegido = null;
+  } else if(vistaCal === 'semana'){
+    foco = sumarDias(foco || hoyISO(), n*7);
+    sincronizarFoco();
+  } else if(vistaCal === 'dia'){
+    foco = sumarDias(foco || hoyISO(), n);
+    diaElegido = foco;
+    sincronizarFoco();
+  } else {
+    anhoVista += n;
+  }
+  pintarMes();
+}
+function sincronizarFoco(){
+  mesVista = +foco.split('-')[1]-1;
+  anhoVista = +foco.split('-')[0];
+}
+function cambiarVistaCal(v){
+  vistaCal = v;
+  if(v === 'semana' || v === 'dia'){
+    foco = diaElegido || foco || hoyISO();
+    if(v === 'dia') diaElegido = foco;
+    sincronizarFoco();
+  }
+  document.querySelectorAll('#cambiaVista button').forEach(b => b.classList.toggle('on', b.dataset.v === v));
+  document.getElementById('rejilla').hidden = v !== 'mes';
+  document.getElementById('horario').hidden = (v !== 'semana' && v !== 'dia');
+  document.getElementById('anual').hidden = v !== 'anio';
+  document.getElementById('semana').style.display = (v === 'mes' && pantalla === 'mes') ? 'grid' : 'none';
+  document.querySelector('.leyenda').style.display = (v === 'anio') ? 'none' : 'flex';
+  try{ localStorage.setItem('agendaVistaCal', v); }catch(e){}
   pintarMes();
 }
 function irHoy(){
   const d = new Date();
   mesVista = d.getMonth(); anhoVista = d.getFullYear();
-  diaElegido = hoyISO();
+  diaElegido = hoyISO(); foco = hoyISO();
   ver('mes'); pintarMes();
-  const c = document.querySelector('.dia.hoy');
+  const c = document.querySelector('.dia.hoy') || document.querySelector('.hdia.hoy');
   if(c) c.scrollIntoView({block:'center', behavior:'smooth'});
 }
 
 function pintarMes(){
+  if(vistaCal === 'semana' || vistaCal === 'dia'){ pintarHorario(); return; }
+  if(vistaCal === 'anio'){ pintarAnio(); return; }
+  document.getElementById('avisoChoques').innerHTML = '';
   document.getElementById('tituloMes').textContent = MESES[mesVista].charAt(0).toUpperCase()+MESES[mesVista].slice(1)+' '+anhoVista;
   const rej = document.getElementById('rejilla');
   const primero = new Date(anhoVista, mesVista, 1).getDay();
@@ -637,8 +978,10 @@ function pintarMes(){
     });
     ocu.forEach(({e}) => { if(e.alerta !== false && !estaHecho(e, iso) && avisoIniciado(e, iso)) alerta = true; });
     if(ocu.length > 3) barras += '<span class="mas">+'+(ocu.length-3)+' más</span>';
+    const fer = feriado(iso);
     html += '<div class="dia'+(iso===hoyISO()?' hoy':'')+(iso===diaElegido?' elegido':'')+
-            ((finde===0||finde===6)?' fds':'')+(alerta?' tiene-alerta':'')+'" data-iso="'+iso+'">'+
+            ((finde===0||finde===6||fer)?' fds':'')+(alerta?' tiene-alerta':'')+'" data-iso="'+iso+'"'+
+            (fer?' title="'+escapar(fer)+'"':'')+'>'+
             '<span class="num">'+dia+'</span>'+
             '<span class="puntos">'+puntos+'</span>'+
             '<span class="barras">'+barras+'</span></div>';
@@ -647,6 +990,162 @@ function pintarMes(){
   for(let i = 1; i <= sobran; i++) html += '<div class="dia fuera"><span class="num">'+i+'</span></div>';
   rej.innerHTML = html;
   pintarDiaElegido();
+}
+
+/* ---------- 5b. VISTAS DE SEMANA Y DÍA ---------- */
+const ALTO_HORA = 46;
+function minutosDe(h){ if(!h) return null; const p = h.split(':'); return (+p[0])*60 + (+p[1]||0); }
+function tramo(e){
+  const a = minutosDe(e.hora);
+  if(a === null) return null;
+  let b = minutosDe(e.horaFin);
+  if(b === null || b <= a) b = a + 60;
+  return [a, b];
+}
+/* Reparte en carriles las anotaciones que se cruzan. */
+function acomodar(items){
+  items.sort((a,b) => a.ini - b.ini || a.fin - b.fin);
+  const grupos = [];
+  let grupo = [], finMax = -1;
+  items.forEach(it => {
+    if(grupo.length && it.ini >= finMax){ grupos.push(grupo); grupo = []; finMax = -1; }
+    grupo.push(it); finMax = Math.max(finMax, it.fin);
+  });
+  if(grupo.length) grupos.push(grupo);
+  grupos.forEach(g => {
+    const carriles = [];
+    g.forEach(it => {
+      let i = 0;
+      while(carriles[i] !== undefined && carriles[i] > it.ini) i++;
+      carriles[i] = it.fin; it.carril = i;
+    });
+    g.forEach(it => { it.total = carriles.length; it.choca = carriles.length > 1; });
+  });
+  return items;
+}
+function tituloRango(dias){
+  if(dias.length === 1){
+    const f = aFecha(dias[0]);
+    return DIAS_CORTO[f.getDay()]+' '+f.getDate()+' de '+MESES[f.getMonth()];
+  }
+  const a = aFecha(dias[0]), b = aFecha(dias[dias.length-1]);
+  const mesA = MESES[a.getMonth()].substring(0,3), mesB = MESES[b.getMonth()].substring(0,3);
+  return a.getMonth() === b.getMonth()
+    ? a.getDate()+' – '+b.getDate()+' de '+MESES[a.getMonth()]
+    : a.getDate()+' '+mesA+' – '+b.getDate()+' '+mesB;
+}
+function pintarHorario(){
+  const base = foco || hoyISO();
+  const dias = vistaCal === 'dia' ? [base]
+    : Array.from({length:7}, (_,i) => sumarDias(inicioSemana(base), i));
+  document.getElementById('tituloMes').textContent = tituloRango(dias);
+
+  /* rango de horas visible */
+  let ini = cfg.horaIni, fin = cfg.horaFin;
+  const todo = [];
+  dias.forEach(iso => ocurrenciasDia(iso).forEach(o => {
+    const t = tramo(o.e);
+    if(t){ ini = Math.min(ini, Math.floor(t[0]/60)); fin = Math.max(fin, Math.ceil(t[1]/60)); }
+    todo.push({o, iso, t});
+  }));
+  ini = Math.max(0, ini); fin = Math.min(24, Math.max(fin, ini+4));
+
+  /* cabecera */
+  let cab = '<div class="hcab"><div class="hesq"></div>';
+  dias.forEach(iso => {
+    const f = aFecha(iso), fer = feriado(iso);
+    cab += '<div class="hdia'+(iso===hoyISO()?' hoy':'')+(fer?' fer':'')+'" data-iso="'+iso+'">'+
+      '<b>'+(fer ? escapar(fer.substring(0,11)) : DIAS_CORTO[f.getDay()])+'</b>'+
+      '<span class="n">'+f.getDate()+'</span></div>';
+  });
+  cab += '</div>';
+
+  /* franja de anotaciones sin hora */
+  let sinHora = '<div class="htodo"><div class="hesq">todo el día</div>';
+  dias.forEach(iso => {
+    const l = ocurrenciasDia(iso).filter(o => !o.e.hora);
+    sinHora += '<div class="cel">' + l.map(({e}) =>
+      '<div class="mini-ev c-'+e.tipo+' '+(estaHecho(e,iso)?'hecho-tachado':'')+'" data-id="'+e.id+'" data-iso="'+iso+'">'+
+      escapar(e.titulo)+'</div>').join('') + '</div>';
+  });
+  sinHora += '</div>';
+
+  /* cuerpo */
+  let horas = '<div class="hhoras">';
+  for(let h = ini; h < fin; h++){
+    const h12 = h % 12 === 0 ? 12 : h % 12;
+    horas += '<div>'+h12+(h < 12 ? 'am' : 'pm')+'</div>';
+  }
+  horas += '</div>';
+
+  const choques = [];
+  let cols = '<div class="hcols">';
+  dias.forEach(iso => {
+    const items = ocurrenciasDia(iso).map(o => {
+      const t = tramo(o.e);
+      return t ? {e:o.e, iso:iso, ini:t[0], fin:t[1]} : null;
+    }).filter(Boolean);
+    acomodar(items);
+    let lineas = '';
+    for(let h = ini; h < fin; h++) lineas += '<div class="hlinea"></div>';
+    let bloques = '';
+    items.forEach(it => {
+      const arriba = ((it.ini - ini*60) / 60) * ALTO_HORA;
+      const alto = Math.max(20, ((it.fin - it.ini) / 60) * ALTO_HORA - 2);
+      const ancho = 100 / it.total;
+      if(it.choca){
+        const otro = items.find(x => x !== it && x.ini < it.fin && x.fin > it.ini);
+        if(otro){
+          const par = [it.e.titulo, otro.e.titulo].sort().join('|') + '|' + iso;
+          if(!choques.some(c => c.par === par)) choques.push({par: par, iso: iso, a: it.e.titulo, b: otro.e.titulo});
+        }
+      }
+      bloques += '<div class="bloque c-'+it.e.tipo+(estaHecho(it.e,iso)?' hecho-tachado':'')+(it.choca?' choca':'')+
+        '" style="top:'+arriba+'px;height:'+alto+'px;left:calc('+(it.carril*ancho)+'% + 1px);width:calc('+ancho+'% - 3px)"'+
+        ' data-id="'+it.e.id+'" data-iso="'+iso+'">'+
+        '<b>'+escapar(it.e.titulo)+'</b>'+(vistaCal === 'dia' ? '<small>'+hora12(it.e.hora)+'</small>' : '')+'</div>';
+    });
+    let ahora = '';
+    if(iso === hoyISO()){
+      const n = new Date(); const m = n.getHours()*60 + n.getMinutes();
+      if(m >= ini*60 && m <= fin*60) ahora = '<div class="ahora" style="top:'+(((m - ini*60)/60)*ALTO_HORA)+'px"></div>';
+    }
+    cols += '<div class="hcol" data-iso="'+iso+'" data-ini="'+ini+'">'+lineas+bloques+ahora+'</div>';
+  });
+  cols += '</div>';
+
+  document.getElementById('horario').innerHTML = cab + sinHora + '<div class="hcuerpo">' + horas + cols + '</div>';
+  document.getElementById('avisoChoques').innerHTML = choques.length
+    ? '<div class="choques"><b>⚠ '+choques.length+' cruce'+(choques.length===1?'':'s')+' de horario.</b> '+
+      choques.slice(0,3).map(c => escapar(c.a)+' con '+escapar(c.b)+' el '+bonita(c.iso)).join('. ')+'.</div>'
+    : '';
+
+  if(vistaCal === 'dia'){ diaElegido = base; }
+  pintarDiaElegido();
+}
+
+/* ---------- 5c. VISTA DE AÑO ---------- */
+function pintarAnio(){
+  document.getElementById('tituloMes').textContent = String(anhoVista);
+  document.getElementById('avisoChoques').innerHTML = '';
+  const conEvento = {};
+  ocurrenciasRango(anhoVista+'-01-01', anhoVista+'-12-31').forEach(o => { conEvento[o.iso] = true; });
+  let html = '';
+  for(let m = 0; m < 12; m++){
+    const primero = new Date(anhoVista, m, 1).getDay();
+    const total = ultimoDiaMes(anhoVista, m);
+    let celdas = DIAS_CORTO.map(d => '<span style="opacity:.5;font-size:.44rem">'+d.charAt(0)+'</span>').join('');
+    for(let i = 0; i < primero; i++) celdas += '<span class="vacio2">0</span>';
+    for(let d = 1; d <= total; d++){
+      const iso = anhoVista+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+      const cl = [iso === hoyISO() ? 'hoy' : '', conEvento[iso] ? 'con' : '', feriado(iso) ? 'fer' : ''].filter(Boolean).join(' ');
+      celdas += '<span class="'+cl+'" data-iso="'+iso+'">'+d+'</span>';
+    }
+    html += '<div class="mini-mes" data-mes="'+m+'"><h5>'+MESES[m].substring(0,3)+'</h5><div class="mini-rej">'+celdas+'</div></div>';
+  }
+  document.getElementById('anual').innerHTML = html;
+  document.getElementById('listaDelMes').innerHTML =
+    '<p class="nota" style="padding:0 14px 16px">Toca un mes o un día para abrirlo. Los días en azul tienen algo anotado.</p>';
 }
 
 function pintarDiaElegido(){
@@ -812,17 +1311,22 @@ function abrirDetalle(id, iso){
       '<p style="margin:0 0 6px"><b>Prioridad:</b> '+PRIORIDADES[e.prioridad||'MEDIA']+'</p>'+
       (repite ? '<p style="margin:0 0 6px"><b>Se repite:</b> '+REPETIR[e.repite].toLowerCase()+
         (e.repiteHasta ? ' hasta el '+bonita(e.repiteHasta) : '')+'</p>' : '')+
-      '<p style="margin:0"><b>Aviso:</b> '+(e.alerta === false ? 'sin aviso' :
-        (e.avisoDias == 0 ? 'el mismo día' : e.avisoDias+' día(s) antes')+' a las '+hora12(e.alertaHora||'08:00'))+
+      '<p style="margin:0"><b>Alarmas:</b> '+textoAlarmas(e)+
         (e.hora && e.alarmaHora !== false ? ' · y a la hora exacta' : '')+'</p>'+
     '</div>'+
+    ((e.historial && e.historial.length) ?
+      '<div style="margin-bottom:14px"><p class="grupo" style="padding:0 0 6px">Reprogramada '+e.historial.length+' vez'+(e.historial.length===1?'':'ces')+'</p>'+
+      e.historial.slice(-4).reverse().map(h => '<p class="linea-hist">'+bonita(h.cuando.substring(0,10))+': de '+escapar(h.de)+' a '+escapar(h.a)+'</p>').join('')+
+      '</div>' : '')+
+    (actaResumen(e, iso))+
     (e.detalle ? '<p style="white-space:pre-wrap;font-size:.92rem;margin:0 0 14px">'+escapar(e.detalle)+'</p>' : '')+
     '<div class="acciones">'+
       '<button class="btn principal" onclick="alternarHechoId('+e.id+',\''+iso+'\');cerrarHoja()">'+(hecho?'Marcar pendiente':'Marcar cumplido')+'</button>'+
       '<button class="btn" onclick="abrirForm('+e.id+',\''+iso+'\')">Editar</button>'+
     '</div>'+
     '<div class="acciones">'+
-      '<button class="btn" onclick="alCalendario('+e.id+',\''+iso+'\')">Poner alarma en el teléfono</button>'+
+      '<button class="btn" onclick="abrirActa('+e.id+',\''+iso+'\')">Acuerdos y notas</button>'+
+      '<button class="btn" onclick="alCalendario('+e.id+',\''+iso+'\')">Alarma en el teléfono</button>'+
     '</div>'+
     '<div class="acciones">'+
       '<button class="btn" onclick="compartir('+e.id+',\''+iso+'\')">Compartir</button>'+
@@ -836,16 +1340,110 @@ function abrirDetalle(id, iso){
     '</div>';
   abrirHoja();
 }
+/* ---------- 8b. ACUERDOS Y NOTAS ---------- */
+function actaDe(e, iso){
+  e.actas = e.actas || {};
+  if(!e.actas[iso]) e.actas[iso] = {notas:'', acuerdos:[]};
+  return e.actas[iso];
+}
+function actaResumen(e, iso){
+  const a = (e.actas || {})[iso];
+  if(!a || (!a.notas && !(a.acuerdos||[]).length)) return '';
+  const pend = (a.acuerdos||[]).filter(x => !x.hecho).length;
+  return '<div class="caja-alerta" style="border-left-color:var(--t-personal)">'+
+    '<p style="margin:0 0 4px"><b>Acta:</b> '+(a.acuerdos||[]).length+' acuerdo(s)'+(pend ? ', '+pend+' sin cumplir' : ', todos cumplidos')+'</p>'+
+    (a.notas ? '<p style="margin:0;font-size:.85rem;white-space:pre-wrap">'+escapar(a.notas.substring(0,180))+'</p>' : '')+
+    '</div>';
+}
+function abrirActa(id, iso){
+  const e = eventos.find(x => x.id === id); if(!e) return;
+  const a = actaDe(e, iso);
+  document.getElementById('hojaTitulo').textContent = 'Acuerdos y notas';
+  document.getElementById('hojaCuerpo').innerHTML =
+    '<p style="margin:0 0 14px;color:var(--suave);font-size:.84rem">'+escapar(e.titulo)+' · '+larga(iso)+'</p>'+
+    '<div class="campo"><label>Qué se acordó</label><textarea id="a_notas" placeholder="Lo hablado, lo pendiente, a qué se comprometió cada quien…">'+escapar(a.notas||'')+'</textarea></div>'+
+    '<label style="display:block;font-size:.66rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--suave);font-weight:700;margin-bottom:8px">Acuerdos</label>'+
+    '<div id="listaAcuerdos"></div>'+
+    '<button type="button" class="mini" id="masAcuerdo">+ Agregar acuerdo</button>'+
+    '<p class="nota">Un acuerdo se puede convertir en tarea con fecha propia; queda enlazado a esta reunión.</p>'+
+    '<div class="acciones">'+
+      '<button class="btn" onclick="abrirDetalle('+id+',\''+iso+'\')">Volver</button>'+
+      '<button class="btn principal" onclick="guardarActa('+id+',\''+iso+'\')">Guardar acta</button>'+
+    '</div>';
+  window._acta = {id: id, iso: iso, acuerdos: JSON.parse(JSON.stringify(a.acuerdos || []))};
+  pintarAcuerdos();
+  document.getElementById('masAcuerdo').onclick = () => {
+    window._acta.acuerdos.push({t:'', r:'', hecho:false});
+    pintarAcuerdos();
+  };
+  abrirHoja();
+}
+function pintarAcuerdos(){
+  const cont = document.getElementById('listaAcuerdos'); if(!cont) return;
+  const lista = window._acta.acuerdos;
+  cont.innerHTML = lista.length ? lista.map((x,i) =>
+    '<div class="acuerdo">'+
+      '<span class="check '+(x.hecho?'ok':'')+'" data-h="'+i+'"><svg viewBox="0 0 24 24"><path d="M5 13l4 4 10-10"/></svg></span>'+
+      '<div class="cuerpo">'+
+        '<input type="text" data-i="'+i+'" data-c="t" value="'+escapar(x.t)+'" placeholder="Qué hay que hacer">'+
+        '<input type="text" class="resp" data-i="'+i+'" data-c="r" value="'+escapar(x.r)+'" placeholder="Responsable">'+
+      '</div>'+
+      '<button type="button" class="quitar" data-tarea="'+i+'" title="Convertir en tarea">↗</button>'+
+      '<button type="button" class="quitar" data-q="'+i+'">×</button>'+
+    '</div>').join('')
+    : '<p class="nota" style="margin:0 0 8px">Todavía no hay acuerdos anotados.</p>';
+  cont.querySelectorAll('input').forEach(el => el.oninput = function(){
+    window._acta.acuerdos[+this.dataset.i][this.dataset.c] = this.value;
+  });
+  cont.querySelectorAll('[data-h]').forEach(b => b.onclick = () => {
+    const x = window._acta.acuerdos[+b.dataset.h]; x.hecho = !x.hecho; pintarAcuerdos();
+  });
+  cont.querySelectorAll('[data-q]').forEach(b => b.onclick = () => {
+    window._acta.acuerdos.splice(+b.dataset.q, 1); pintarAcuerdos();
+  });
+  cont.querySelectorAll('[data-tarea]').forEach(b => b.onclick = () => {
+    const x = window._acta.acuerdos[+b.dataset.tarea];
+    if(!x.t.trim()){ tostada('Escribe primero el acuerdo'); return; }
+    guardarActa(window._acta.id, window._acta.iso, true);
+    const madre = eventos.find(y => y.id === window._acta.id);
+    const base = nuevoEn(sumarDias(window._acta.iso, 7), '');
+    base.tipo = 'TAREA';
+    base.titulo = x.t.trim();
+    base.origen = x.r || (madre ? madre.titulo : '');
+    base.detalle = 'Acuerdo de: ' + (madre ? madre.titulo : '') + ' (' + bonita(window._acta.iso) + ')';
+    base.desdeId = window._acta.id;
+    setTimeout(() => abrirForm(null, base.fecha, base), 60);
+  });
+}
+function guardarActa(id, iso, callado){
+  const e = eventos.find(x => x.id === id); if(!e) return;
+  const a = actaDe(e, iso);
+  const notas = document.getElementById('a_notas');
+  if(notas) a.notas = notas.value.trim();
+  a.acuerdos = window._acta.acuerdos.filter(x => x.t.trim());
+  guardar(); pintarTodo();
+  if(!callado){ cerrarHoja(); tostada('Acta guardada'); }
+}
+
 function eliminar(id, iso, soloEsta){
   const e = eventos.find(x => x.id === id); if(!e) return;
   if(soloEsta){
-    if(!confirm('¿Quitar esta anotación solo del '+bonita(iso)+'?')) return;
     e.excepciones = e.excepciones || {}; e.excepciones[iso] = true;
-  } else {
-    if(!confirm('¿Eliminar «'+e.titulo+'» de la agenda?')) return;
-    eventos = eventos.filter(x => x.id !== id);
+    guardar(); cerrarHoja(); pintarTodo();
+    tostada('Quitada del '+bonita(iso), 'Deshacer', () => {
+      delete e.excepciones[iso]; guardar(); pintarTodo(); tostada('Se devolvió a su fecha');
+    });
+    return;
   }
-  guardar(); cerrarHoja(); pintarTodo(); tostada('Anotación eliminada');
+  const copia = JSON.parse(JSON.stringify(e));
+  aPapelera(copia, 'eliminada');
+  eventos = eventos.filter(x => x.id !== id);
+  guardar(); cerrarHoja(); pintarTodo();
+  tostada('«'+e.titulo.substring(0,22)+'» a la papelera', 'Deshacer', () => {
+    eventos.push(normalizar(copia));
+    papelera = papelera.filter(x => x.e.id !== copia.id);
+    guardar(); guardarPapelera(); pintarTodo(); tostada('Anotación recuperada');
+  });
 }
 function duplicar(id, iso){
   const e = eventos.find(x => x.id === id); if(!e) return;
@@ -862,6 +1460,12 @@ function compartir(id, iso){
     (e.detalle ? '\n'+e.detalle : '');
   if(navigator.share) navigator.share({title:e.titulo, text:texto}).catch(()=>{});
   else copiar(texto, 'Anotación copiada');
+}
+
+function nuevoEn(iso, hora){
+  return normalizar({id:Date.now(), tipo:'REUNION', titulo:'', fecha:iso, hora:hora||'', horaFin:'',
+    lugar:'', origen:'', detalle:'', prioridad:'MEDIA', repite:'NO', repiteHasta:'',
+    alarmas:[{dias:0, hora:'08:00'}], alarmaHora:true});
 }
 
 /* ---------- 9. FORMULARIO ---------- */
@@ -904,22 +1508,12 @@ function abrirForm(id, iso, base){
     '<div class="campo" id="cajaHasta" style="display:'+(repite?'block':'none')+'">'+
       '<label>Repetir hasta (opcional)</label><input type="date" id="f_repiteHasta" value="'+(e.repiteHasta||'')+'"></div>'+
     '<div class="caja-alerta">'+
-      '<label class="linea-check"><input type="checkbox" id="f_alerta" '+(e.alerta!==false?'checked':'')+'> Avisarme antes</label>'+
-      '<div id="bloqueAviso" style="display:'+(e.alerta!==false?'block':'none')+'">'+
-        '<div class="dos" style="margin-top:12px">'+
-          '<div class="campo" style="margin:0"><label>Cuánto antes</label><select id="f_avisoDias">'+
-            [[0,'El mismo día'],[1,'1 día antes'],[2,'2 días antes'],[3,'3 días antes'],[7,'1 semana antes'],[15,'15 días antes'],[30,'1 mes antes']]
-              .map(([v,t]) => '<option value="'+v+'" '+((e.avisoDias===undefined?1:e.avisoDias)==v?'selected':'')+'>'+t+'</option>').join('')+
-          '</select></div>'+
-          '<div class="campo" style="margin:0"><label>A qué hora</label><input type="time" id="f_alertaHora" value="'+(e.alertaHora||'08:00')+'"></div>'+
-        '</div>'+
-        '<div class="rapidas">'+
-          ['07:00','08:00','12:00','16:00'].map(h => '<button type="button" class="mini" data-h="'+h+'">'+hora12(h)+'</button>').join('')+
-        '</div>'+
-        '<p class="frase" id="frase"></p>'+
-        '<p class="nota">La alarma suena y vibra a esa hora. Si la aplicación está cerrada, el aviso queda esperando en la pestaña Avisos.</p>'+
-      '</div>'+
-      '<label class="linea-check" style="margin-top:12px"><input type="checkbox" id="f_alarmaHora" '+(e.alarmaHora!==false?'checked':'')+'> Sonar también a la hora exacta</label>'+
+      '<label style="display:block;font-size:.66rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--suave);font-weight:700;margin-bottom:9px">Alarmas</label>'+
+      '<div id="listaAlarmas"></div>'+
+      '<button type="button" class="mini" id="masAlarma">+ Agregar otra alarma</button>'+
+      '<p class="frase" id="frase"></p>'+
+      '<label class="linea-check" style="margin-top:12px"><input type="checkbox" id="f_alarmaHora" '+(e.alarmaHora!==false?'checked':'')+'> Sonar también a la hora exacta del compromiso</label>'+
+      '<p class="nota">Suena y vibra en cada alarma. Si la aplicación está cerrada, el aviso queda esperando en la pestaña Avisos.</p>'+
     '</div>'+
     '<div class="campo"><label>Detalle</label><textarea id="f_detalle" placeholder="Acuerdos, qué debes llevar, número de expediente…">'+escapar(e.detalle||'')+'</textarea></div>'+
     (repite && !nuevo ? '<p class="nota" style="margin-bottom:12px">Esta anotación se repite: lo que cambies aquí se aplica a todas las fechas de la serie.</p>' : '')+
@@ -936,32 +1530,64 @@ function abrirForm(id, iso, base){
   cuerpo.querySelectorAll('.rapidas .mini').forEach(b => b.onclick = () => {
     document.getElementById('f_alertaHora').value = b.dataset.h; refrescarFrase();
   });
-  document.getElementById('f_alerta').onchange = function(){
-    document.getElementById('bloqueAviso').style.display = this.checked ? 'block' : 'none';
-  };
   document.getElementById('f_repite').onchange = function(){
     document.getElementById('cajaHasta').style.display = this.value === 'NO' ? 'none' : 'block';
   };
-  ['f_fecha','f_hora','f_avisoDias','f_alertaHora'].forEach(x => {
-    document.getElementById(x).addEventListener('change', refrescarFrase);
-  });
-  refrescarFrase();
+  document.getElementById('masAlarma').onclick = () => {
+    borrador.alarmas = borrador.alarmas || [];
+    if(borrador.alarmas.length >= 5){ tostada('Cinco alarmas por anotación es el máximo'); return; }
+    const ultima = borrador.alarmas[borrador.alarmas.length-1];
+    borrador.alarmas.push({dias: ultima ? Math.max(0, (+ultima.dias) - 1) : 1, hora: '08:00'});
+    pintarAlarmasForm();
+  };
+  ['f_fecha','f_hora'].forEach(x => document.getElementById(x).addEventListener('change', refrescarFrase));
+  pintarAlarmasForm();
   abrirHoja();
   if(nuevo) setTimeout(() => document.getElementById('f_titulo').focus(), 320);
 }
 
+const OPC_DIAS = [[0,'El mismo día'],[1,'1 día antes'],[2,'2 días antes'],[3,'3 días antes'],
+                  [7,'1 semana antes'],[15,'15 días antes'],[30,'1 mes antes']];
+function pintarAlarmasForm(){
+  const cont = document.getElementById('listaAlarmas'); if(!cont) return;
+  const lista = borrador.alarmas || [];
+  if(!lista.length){
+    cont.innerHTML = '<p class="nota" style="margin:0 0 8px">Sin alarmas. Solo quedará anotado en el calendario.</p>';
+  } else {
+    cont.innerHTML = lista.map((a, i) =>
+      '<div class="fila-alarma">'+
+        '<select data-i="'+i+'" data-c="dias">'+
+          OPC_DIAS.map(([v,t]) => '<option value="'+v+'" '+(+a.dias === v ? 'selected' : '')+'>'+t+'</option>').join('')+
+        '</select>'+
+        '<input type="time" data-i="'+i+'" data-c="hora" value="'+(a.hora||'08:00')+'">'+
+        '<button type="button" class="quitar" data-q="'+i+'" aria-label="Quitar alarma">×</button>'+
+      '</div>').join('');
+  }
+  cont.querySelectorAll('select, input').forEach(el => el.onchange = function(){
+    borrador.alarmas[+this.dataset.i][this.dataset.c] = this.dataset.c === 'dias' ? +this.value : this.value;
+    refrescarFrase();
+  });
+  cont.querySelectorAll('.quitar').forEach(b => b.onclick = () => {
+    borrador.alarmas.splice(+b.dataset.q, 1); pintarAlarmasForm();
+  });
+  refrescarFrase();
+}
 function refrescarFrase(){
   const div = document.getElementById('frase'); if(!div) return;
   const fecha = document.getElementById('f_fecha').value;
   if(!fecha){ div.textContent = 'Elige primero la fecha.'; return; }
-  const dias = +document.getElementById('f_avisoDias').value;
-  const hora = document.getElementById('f_alertaHora').value || '08:00';
+  const lista = (borrador.alarmas || []).slice().sort((a,b) => (+b.dias) - (+a.dias));
+  if(!lista.length){ div.textContent = 'Esta anotación no sonará: quedará solo en el calendario.'; return; }
   const horaEvento = document.getElementById('f_hora').value;
-  const d = aFecha(fecha); d.setDate(d.getDate() - dias);
-  const p = hora.split(':'); d.setHours(+p[0]||0, +p[1]||0, 0, 0);
-  let t = 'Te avisará el '+SEMANA[d.getDay()]+' '+d.getDate()+' de '+MESES[d.getMonth()]+' a las '+hora12(hora);
-  if(d < new Date()) t += ' Ese momento ya pasó, así que el aviso saldrá de una vez.';
-  if(dias === 0 && horaEvento && hora > horaEvento) t += ' Ojo: el aviso llegaría después de la hora anotada.';
+  const partes = lista.map(a => {
+    const d = aFecha(fecha); d.setDate(d.getDate() - (+a.dias||0));
+    const p = (a.hora||'08:00').split(':'); d.setHours(+p[0]||0, +p[1]||0, 0, 0);
+    return {d: d, txt: SEMANA[d.getDay()]+' '+d.getDate()+' de '+MESES[d.getMonth()]+' a las '+hora12(a.hora)};
+  });
+  let t = 'Sonará el ' + partes.map(x => x.txt).join('; y el ') + '.';
+  if(partes.some(x => x.d < new Date())) t += ' Alguna de esas horas ya pasó, así que ese aviso saldrá de una vez.';
+  const mismo = lista.find(a => +a.dias === 0);
+  if(mismo && horaEvento && mismo.hora > horaEvento) t += ' Ojo: una alarma quedaría después de la hora anotada.';
   div.textContent = t;
 }
 
@@ -983,17 +1609,28 @@ function guardarForm(){
     prioridad: v('f_prioridad'),
     repite: v('f_repite'),
     repiteHasta: v('f_repiteHasta'),
-    alerta: document.getElementById('f_alerta').checked,
-    avisoDias: +v('f_avisoDias'),
-    alertaHora: v('f_alertaHora') || '08:00',
+    alarmas: (borrador.alarmas || []).map(a => ({dias: +a.dias || 0, hora: a.hora || '08:00'})),
     alarmaHora: document.getElementById('f_alarmaHora') ? document.getElementById('f_alarmaHora').checked : true,
     pospuesto: borrador.pospuesto || {},
     hechos: borrador.hechos || {},
     vistas: borrador.vistas || {},
-    excepciones: borrador.excepciones || {}
+    excepciones: borrador.excepciones || {},
+    historial: (borrador.historial || []).slice(),
+    actas: borrador.actas || {}
   };
+  normalizar(e);
   const i = eventos.findIndex(x => x.id === e.id);
-  if(i >= 0) eventos[i] = e; else eventos.push(e);
+  if(i >= 0){
+    const antes = eventos[i];
+    if(antes.fecha !== e.fecha || antes.hora !== e.hora){
+      e.historial.push({
+        cuando: new Date().toISOString(),
+        de: bonita(antes.fecha) + (antes.hora ? ' ' + hora12(antes.hora) : ''),
+        a:  bonita(e.fecha) + (e.hora ? ' ' + hora12(e.hora) : '')
+      });
+    }
+    eventos[i] = e;
+  } else eventos.push(e);
   guardar();
   mesVista = +e.fecha.split('-')[1]-1; anhoVista = +e.fecha.split('-')[0]; diaElegido = e.fecha;
   cerrarHoja(); pintarTodo();
@@ -1021,12 +1658,6 @@ function ponerTitular(n){
 
 /* --- permiso --- */
 function pedirPermiso(){
-  if(window.AndroidAgenda){
-    try{ window.AndroidAgenda.requestNotificationPermission(); }catch(e){}
-    tostada('Permiso de avisos solicitado al teléfono');
-    setTimeout(pintarPermiso, 700);
-    return;
-  }
   if(!('Notification' in window)){ tostada('Este equipo no permite avisos del sistema'); return; }
   despertarAudio();
   Notification.requestPermission().then(r => {
@@ -1036,15 +1667,6 @@ function pedirPermiso(){
   });
 }
 function pintarPermiso(){
-  if(window.AndroidAgenda){
-    let ok = true;
-    try{ ok = !!window.AndroidAgenda.hasNotificationPermission(); }catch(e){}
-    const txt = document.getElementById('txtPermiso');
-    const btn = document.getElementById('btnPermiso');
-    txt.textContent = ok ? 'Activados en este teléfono' : 'Sin activar';
-    btn.style.display = ok ? 'none' : '';
-    return;
-  }
   const p = ('Notification' in window) ? Notification.permission : 'no';
   const txt = document.getElementById('txtPermiso');
   const btn = document.getElementById('btnPermiso');
@@ -1103,15 +1725,6 @@ async function registroSW(){
   }catch(e){ return null; }
 }
 async function notificar(titulo, cuerpo, etiqueta, datos, cuando){
-  // En la APK Android usamos un puente nativo para avisos y alarmas.
-  if(window.AndroidAgenda){
-    try{
-      const payload = JSON.stringify(datos || {});
-      if(cuando){ window.AndroidAgenda.scheduleNotification(String(titulo||''), String(cuerpo||''), String(etiqueta||''), payload, Number(cuando)); }
-      else { window.AndroidAgenda.showNotification(String(titulo||''), String(cuerpo||''), String(etiqueta||''), payload); }
-      return true;
-    }catch(e){}
-  }
   if(!('Notification' in window) || Notification.permission !== 'granted') return false;
   const op = {
     body: cuerpo, tag: etiqueta, renotify: true, requireInteraction: true,
@@ -1149,10 +1762,10 @@ function programarAlarmas(){
   ocurrenciasRango(hoy, sumarDias(hoy, 40)).forEach(({e, iso}) => {
     if(estaHecho(e, iso)) return;
     const puntos = [];
-    if(e.alerta !== false){
-      const m = momentoAviso(e, iso);
+    alarmasDe(e).forEach(a => {
+      const m = momentoDe(e, iso, a);
       if(m) puntos.push([m.getTime(), 'aviso']);
-    }
+    });
     if(e.hora && e.alarmaHora !== false){
       const m = momentoHora(e, iso);
       if(m) puntos.push([m.getTime(), 'hora']);
@@ -1165,6 +1778,50 @@ function programarAlarmas(){
       programarEnSistema(e, iso, t, motivo);
     });
   });
+  programarResumen();
+}
+
+/* --- horas de silencio --- */
+function enSilencio(cuando){
+  const d = cuando || new Date();
+  if(!cfg.noMolestar.activo) return false;
+  if(!cfg.noMolestar.finDeSemana && (d.getDay() === 0 || d.getDay() === 6)) return true;
+  const min = d.getHours()*60 + d.getMinutes();
+  const a = cfg.noMolestar.desde.split(':'), b = cfg.noMolestar.hasta.split(':');
+  const ini = (+a[0])*60 + (+a[1]||0), fin = (+b[0])*60 + (+b[1]||0);
+  return ini <= fin ? (min >= ini && min < fin) : (min >= ini || min < fin);
+}
+
+/* --- resumen del día --- */
+let tempResumen = null;
+function programarResumen(){
+  if(tempResumen){ clearTimeout(tempResumen); tempResumen = null; }
+  if(!cfg.resumen.activo) return;
+  const p = cfg.resumen.hora.split(':');
+  const d = new Date(); d.setHours(+p[0]||7, +p[1]||0, 0, 0);
+  let t = d.getTime();
+  if(t <= Date.now()) t += 86400000;
+  const espera = t - Date.now();
+  if(espera < 26*3600*1000) tempResumen = setTimeout(() => { enviarResumen(); programarResumen(); }, espera);
+  if('showTrigger' in (window.Notification ? Notification.prototype : {})) programarResumenSistema(t);
+}
+function textoResumen(iso){
+  const lista = ocurrenciasDia(iso).filter(o => !estaHecho(o.e, o.iso));
+  if(!lista.length) return 'Hoy no tienes nada anotado.';
+  return lista.map(({e}) => (e.hora ? hora12(e.hora) + ' — ' : '') + e.titulo).join('\n');
+}
+function enviarResumen(){
+  const hoy = hoyISO();
+  const lista = ocurrenciasDia(hoy).filter(o => !estaHecho(o.e, o.iso));
+  const fer = feriado(hoy);
+  notificar('Tu día: ' + lista.length + ' actividad' + (lista.length === 1 ? '' : 'es') + (fer ? ' · ' + fer : ''),
+    textoResumen(hoy), 'resumen' + hoy, {});
+}
+function programarResumenSistema(t){
+  const iso = fechaISO(new Date(t));
+  const lista = ocurrenciasDia(iso).filter(o => !estaHecho(o.e, o.iso));
+  notificar('Tu día: ' + lista.length + ' actividad' + (lista.length === 1 ? '' : 'es'),
+    textoResumen(iso), 'resumenP' + iso, {}, t);
 }
 function programarEnSistema(e, iso, t, motivo){
   if(!('Notification' in window) || Notification.permission !== 'granted') return;
@@ -1182,7 +1839,7 @@ function dispararAlarma(id, iso, motivo){
   notificar(TIPOS[e.tipo] + ' · ' + rotulo,
     e.titulo + (e.hora ? ' — ' + hora12(e.hora) : '') + (e.lugar ? '\n' + e.lugar : ''),
     'a' + id + iso + motivo, {id: id, iso: iso});
-  vibrar(); sonar();
+  if(!enSilencio()){ vibrar(); sonar(); }
   mostrarAlarma(e, iso, rotulo);
   pintarTiras(); pintarAvisos();
 }
@@ -1298,6 +1955,238 @@ function todoAlCalendario(){
   exportarICS(eventos, 'agenda_' + hoyISO() + '.ics');
 }
 
+/* ---------- 10b. INFORMES ---------- */
+const COLOR_TIPO = {REUNION:'var(--t-reunion)', RECORDATORIO:'var(--t-recordatorio)',
+                    TAREA:'var(--t-tarea)', ENTREGA:'var(--t-entrega)', PERSONAL:'var(--t-personal)'};
+function rosca(datos){
+  const total = datos.reduce((a,b) => a + b.n, 0);
+  if(!total) return '<p class="nota">Todavía no hay datos de este mes.</p>';
+  const r = 52, c = 2 * Math.PI * r;
+  let off = 0;
+  const arcos = datos.filter(d => d.n).map(d => {
+    const largo = (d.n / total) * c;
+    const el = '<circle cx="59" cy="59" r="'+r+'" fill="none" stroke="'+d.color+'" stroke-width="14" '+
+      'stroke-dasharray="'+largo+' '+(c-largo)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 59 59)"/>';
+    off += largo; return el;
+  }).join('');
+  return '<div class="rosca"><svg viewBox="0 0 118 118">'+arcos+
+    '<text x="59" y="64" text-anchor="middle" font-size="22" font-family="Georgia,serif" fill="currentColor">'+total+'</text></svg>'+
+    '<ul>'+datos.filter(d => d.n).map(d => '<li><i style="background:'+d.color+'"></i>'+d.et+' <b style="margin-left:auto">'+d.n+'</b></li>').join('')+'</ul></div>';
+}
+function barras(datos, color){
+  const max = Math.max(1, ...datos.map(d => d.n));
+  if(!datos.length) return '<p class="nota">Sin datos.</p>';
+  return datos.map(d => '<div class="barrita"><span class="et">'+escapar(d.et)+'</span>'+
+    '<span class="via"><i style="width:'+Math.round(d.n/max*100)+'%;background:'+(d.color||color)+'"></i></span>'+
+    '<span class="nm">'+d.n+'</span></div>').join('');
+}
+function pintarInformes(){
+  const ini = anhoVista+'-'+String(mesVista+1).padStart(2,'0')+'-01';
+  const fin = anhoVista+'-'+String(mesVista+1).padStart(2,'0')+'-'+ultimoDiaMes(anhoVista, mesVista);
+  const hoy = hoyISO();
+  const lista = ocurrenciasRango(ini, fin);
+  const cumplidas = lista.filter(o => estaHecho(o.e, o.iso));
+  const vencidas = lista.filter(o => !estaHecho(o.e, o.iso) && o.iso < hoy);
+  const porVenir = lista.filter(o => !estaHecho(o.e, o.iso) && o.iso >= hoy);
+  const puntual = lista.length ? Math.round(cumplidas.length / lista.length * 100) : 0;
+
+  const porTipo = Object.keys(TIPOS).map(k => ({et: TIPOS[k], color: COLOR_TIPO[k],
+    n: lista.filter(o => o.e.tipo === k).length}));
+
+  const pedidos = {};
+  lista.forEach(o => { const q = (o.e.origen || 'sin registrar').trim() || 'sin registrar'; pedidos[q] = (pedidos[q]||0)+1; });
+  const porQuien = Object.keys(pedidos).map(k => ({et:k, n:pedidos[k]})).sort((a,b) => b.n - a.n).slice(0,6);
+
+  const reprogramadas = eventos.filter(e => (e.historial||[]).length);
+  const acuerdos = [];
+  eventos.forEach(e => Object.keys(e.actas||{}).forEach(iso =>
+    (e.actas[iso].acuerdos||[]).forEach(a => { if(!a.hecho) acuerdos.push({e, iso, a}); })));
+
+  const dias = {};
+  lista.forEach(o => { const d = aFecha(o.iso).getDay(); dias[d] = (dias[d]||0)+1; });
+  const porDia = DIAS_CORTO.map((d,i) => ({et:d, n: dias[i]||0, color:'var(--t-reunion)'}));
+
+  document.getElementById('cuerpoInformes').innerHTML =
+    '<div class="grupo">'+MESES[mesVista]+' '+anhoVista+'</div>'+
+    '<p class="nota" style="padding:0 14px 8px;margin:0">Con las flechas de arriba cambias de mes.</p>'+
+    '<div class="cifras">'+
+      '<div class="cifra"><b>'+lista.length+'</b><span>Actividades</span></div>'+
+      '<div class="cifra"><b>'+cumplidas.length+'</b><span>Cumplidas</span></div>'+
+      '<div class="cifra"><b style="color:var(--t-entrega)">'+vencidas.length+'</b><span>Vencidas</span></div>'+
+      '<div class="cifra"><b>'+porVenir.length+'</b><span>Por venir</span></div>'+
+      '<div class="cifra"><b>'+puntual+'%</b><span>Cumplimiento</span></div>'+
+      '<div class="cifra"><b style="color:var(--t-recordatorio)">'+reprogramadas.length+'</b><span>Reprogramadas</span></div>'+
+    '</div>'+
+    '<div class="tarjeta-inf"><h4>En qué se va el mes</h4>'+rosca(porTipo)+'</div>'+
+    '<div class="tarjeta-inf"><h4>Quién pide el trabajo</h4>'+barras(porQuien, 'var(--t-reunion)')+'</div>'+
+    '<div class="tarjeta-inf"><h4>Carga por día de la semana</h4>'+barras(porDia)+'</div>'+
+    (vencidas.length ? '<div class="tarjeta-inf"><h4>Lo que quedó pendiente</h4>'+
+      vencidas.slice(0,8).map(o => '<p class="linea-hist">'+bonita(o.iso)+' — '+escapar(o.e.titulo)+'</p>').join('')+'</div>' : '')+
+    (acuerdos.length ? '<div class="tarjeta-inf"><h4>Acuerdos sin cumplir</h4>'+
+      acuerdos.slice(0,8).map(x => '<p class="linea-hist">'+escapar(x.a.t)+(x.a.r ? ' — '+escapar(x.a.r) : '')+
+        ' <span style="color:var(--tenue)">('+escapar(x.e.titulo)+')</span></p>').join('')+'</div>' : '')+
+    '<div class="acciones no-imprimir" style="padding:4px 12px 20px">'+
+      '<button class="btn" onclick="copiarInforme()">Copiar informe</button>'+
+      '<button class="btn principal" onclick="window.print()">Imprimir o PDF</button>'+
+    '</div>';
+}
+function copiarInforme(){
+  const ini = anhoVista+'-'+String(mesVista+1).padStart(2,'0')+'-01';
+  const fin = anhoVista+'-'+String(mesVista+1).padStart(2,'0')+'-'+ultimoDiaMes(anhoVista, mesVista);
+  const hoy = hoyISO();
+  const lista = ocurrenciasRango(ini, fin);
+  const cumplidas = lista.filter(o => estaHecho(o.e, o.iso));
+  const vencidas = lista.filter(o => !estaHecho(o.e, o.iso) && o.iso < hoy);
+  let t = 'Informe de agenda — '+MESES[mesVista]+' '+anhoVista+(titular() ? '\n'+titular() : '')+'\n\n';
+  t += 'Actividades: '+lista.length+'\nCumplidas: '+cumplidas.length+'\nVencidas: '+vencidas.length+'\n';
+  t += 'Cumplimiento: '+(lista.length ? Math.round(cumplidas.length/lista.length*100) : 0)+'%\n\n';
+  if(vencidas.length){
+    t += 'Pendientes del mes:\n';
+    vencidas.forEach(o => { t += '  • '+bonita(o.iso)+' '+o.e.titulo+'\n'; });
+  }
+  copiar(t, 'Informe copiado');
+}
+
+/* ---------- 10c. PAPELERA, PIN Y AJUSTES FINOS ---------- */
+function abrirPapelera(){
+  const resp = respaldosAuto();
+  document.getElementById('hojaTitulo').textContent = 'Papelera y respaldos';
+  document.getElementById('hojaCuerpo').innerHTML =
+    '<label style="display:block;font-size:.66rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--suave);font-weight:700;margin-bottom:9px">Borrado hace poco</label>'+
+    (papelera.length
+      ? papelera.slice(0,20).map((x,i) => '<div class="item" style="margin:0 0 8px">'+
+          '<span class="franja c-'+x.e.tipo+'"></span><div class="cuerpo"><h4>'+escapar(x.e.titulo)+'</h4>'+
+          '<div class="sub">'+bonita(x.e.fecha)+' · borrada el '+bonita(fechaISO(new Date(x.cuando)))+'</div></div>'+
+          '<button class="mini" onclick="restaurarDePapelera('+i+')">Devolver</button></div>').join('')
+      : '<p class="nota" style="margin:0 0 12px">No has borrado nada.</p>')+
+    (papelera.length ? '<button class="mini" onclick="vaciarPapelera()">Vaciar papelera</button>' : '')+
+    '<label style="display:block;font-size:.66rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--suave);font-weight:700;margin:20px 0 9px">Respaldos automáticos</label>'+
+    '<p class="nota" style="margin:0 0 10px">La agenda se guarda sola una vez al día. Puedes volver a como estaba.</p>'+
+    (resp.length
+      ? resp.map(r => '<div class="item" style="margin:0 0 8px"><div class="cuerpo"><h4>'+bonita(r.fecha)+'</h4>'+
+          '<div class="sub">'+r.cuantos+' anotación(es)</div></div>'+
+          '<button class="mini" onclick="restaurarRespaldo(\''+r.fecha+'\')">Restaurar</button></div>').join('')
+      : '<p class="nota">Aún no hay respaldos guardados.</p>')+
+    '<div class="acciones"><button class="btn" onclick="cerrarHoja()">Cerrar</button></div>';
+  abrirHoja();
+}
+
+async function huella(txt){
+  try{
+    if(window.crypto && crypto.subtle){
+      const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('agenda:'+txt));
+      return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join('');
+    }
+  }catch(e){}
+  return 'simple:'+txt;
+}
+let pinEscrito = '', pinModo = 'abrir', pinNuevo = '';
+function pintarPuntos(){
+  document.querySelectorAll('#puntosPin i').forEach((el,i) => el.classList.toggle('on', i < pinEscrito.length));
+}
+function abrirCandado(modo){
+  pinModo = modo; pinEscrito = ''; pinNuevo = '';
+  document.getElementById('candadoTexto').textContent =
+    modo === 'abrir' ? 'Escribe tu PIN de 4 cifras' : 'Elige un PIN de 4 cifras';
+  document.getElementById('candado').classList.add('ver');
+  pintarPuntos();
+}
+async function teclaPin(t){
+  if(t === 'borrar'){ pinEscrito = pinEscrito.slice(0,-1); pintarPuntos(); return; }
+  if(t === 'ok'){ await validarPin(); return; }
+  if(pinEscrito.length >= 4) return;
+  pinEscrito += t; pintarPuntos();
+  if(pinEscrito.length === 4) setTimeout(validarPin, 120);
+}
+async function validarPin(){
+  if(pinEscrito.length !== 4) return;
+  if(pinModo === 'abrir'){
+    const h = await huella(pinEscrito);
+    if(h === cfg.pin){ document.getElementById('candado').classList.remove('ver'); pinEscrito = ''; pintarPuntos(); }
+    else {
+      pinEscrito = ''; pintarPuntos();
+      document.getElementById('candadoTexto').textContent = 'PIN incorrecto. Prueba de nuevo.';
+      if(navigator.vibrate) try{ navigator.vibrate(200); }catch(e){}
+    }
+    return;
+  }
+  if(pinModo === 'nuevo'){
+    pinNuevo = pinEscrito; pinEscrito = ''; pintarPuntos();
+    pinModo = 'repetir';
+    document.getElementById('candadoTexto').textContent = 'Escríbelo otra vez para confirmar';
+    return;
+  }
+  if(pinModo === 'repetir'){
+    if(pinEscrito === pinNuevo){
+      cfg.pin = await huella(pinEscrito);
+      guardarCfg(); pintarAjustes();
+      document.getElementById('candado').classList.remove('ver');
+      tostada('Bloqueo activado');
+    } else {
+      pinEscrito = ''; pinNuevo = ''; pinModo = 'nuevo'; pintarPuntos();
+      document.getElementById('candadoTexto').textContent = 'No coincidió. Elige un PIN de 4 cifras';
+    }
+  }
+}
+function alternarPin(){
+  if(cfg.pin){
+    if(!confirm('¿Quitar el bloqueo con PIN?')) return;
+    cfg.pin = ''; guardarCfg(); pintarAjustes(); tostada('Bloqueo quitado');
+  } else abrirCandado('nuevo');
+}
+
+function abrirSilencio(){
+  const n = cfg.noMolestar;
+  document.getElementById('hojaTitulo').textContent = 'Horas de silencio';
+  document.getElementById('hojaCuerpo').innerHTML =
+    '<p class="nota" style="margin:0 0 14px">En esas horas el aviso igual aparece, pero la alarma no suena ni vibra.</p>'+
+    '<label class="linea-check" style="margin-bottom:14px"><input type="checkbox" id="s_activo" '+(n.activo?'checked':'')+'> Activar horas de silencio</label>'+
+    '<div class="dos">'+
+      '<div class="campo"><label>Desde</label><input type="time" id="s_desde" value="'+n.desde+'"></div>'+
+      '<div class="campo"><label>Hasta</label><input type="time" id="s_hasta" value="'+n.hasta+'"></div>'+
+    '</div>'+
+    '<label class="linea-check"><input type="checkbox" id="s_finde" '+(n.finDeSemana?'checked':'')+'> Sonar también sábados y domingos</label>'+
+    '<div class="acciones"><button class="btn" onclick="cerrarHoja()">Cancelar</button>'+
+      '<button class="btn principal" onclick="guardarSilencio()">Guardar</button></div>';
+  abrirHoja();
+}
+function guardarSilencio(){
+  cfg.noMolestar = {
+    activo: document.getElementById('s_activo').checked,
+    desde: document.getElementById('s_desde').value || '21:00',
+    hasta: document.getElementById('s_hasta').value || '06:30',
+    finDeSemana: document.getElementById('s_finde').checked
+  };
+  guardarCfg(); cerrarHoja(); pintarAjustes(); tostada('Horas de silencio guardadas');
+}
+function abrirResumen(){
+  document.getElementById('hojaTitulo').textContent = 'Resumen del día';
+  document.getElementById('hojaCuerpo').innerHTML =
+    '<p class="nota" style="margin:0 0 14px">Un solo aviso en la mañana con todo lo del día, para no revisar la agenda a cada rato.</p>'+
+    '<label class="linea-check" style="margin-bottom:14px"><input type="checkbox" id="r_activo" '+(cfg.resumen.activo?'checked':'')+'> Enviarme el resumen</label>'+
+    '<div class="campo"><label>A qué hora</label><input type="time" id="r_hora" value="'+cfg.resumen.hora+'"></div>'+
+    '<div class="acciones"><button class="btn" onclick="verResumenAhora()">Ver el de hoy</button>'+
+      '<button class="btn principal" onclick="guardarResumen()">Guardar</button></div>';
+  abrirHoja();
+}
+function verResumenAhora(){ alert(textoResumen(hoyISO())); }
+function guardarResumen(){
+  cfg.resumen = {activo: document.getElementById('r_activo').checked, hora: document.getElementById('r_hora').value || '07:00'};
+  guardarCfg(); cerrarHoja(); pintarAjustes(); programarResumen();
+  tostada(cfg.resumen.activo ? 'Resumen activado a las '+hora12(cfg.resumen.hora) : 'Resumen apagado');
+}
+function pintarAjustes(){
+  const n = cfg.noMolestar;
+  document.getElementById('txtSilencio').textContent = n.activo
+    ? 'De '+hora12(n.desde)+' a '+hora12(n.hasta)+(n.finDeSemana ? '' : ' · fines de semana en silencio') : 'Apagado';
+  document.getElementById('txtResumen').textContent = cfg.resumen.activo
+    ? 'Todos los días a las '+hora12(cfg.resumen.hora) : 'Apagado';
+  document.getElementById('txtPapelera').textContent = papelera.length
+    ? papelera.length+' anotación(es) recuperable(s)' : 'Nada borrado';
+  document.getElementById('txtPin').textContent = cfg.pin ? 'Activado' : 'Sin bloqueo';
+  document.getElementById('swFeriados').classList.toggle('on', !!cfg.feriados);
+}
+
 /* ---------- 11. RESPALDO Y AJUSTES ---------- */
 function bajarArchivo(nombre, contenido, tipo){
   try{
@@ -1371,9 +2260,16 @@ function pedirCopiaManual(texto){
   t.remove();
 }
 function borrarTodo(){
-  if(!confirm('Esto borra TODAS las anotaciones de la agenda. ¿Continuar?')) return;
+  if(!confirm('Esto manda TODAS las anotaciones a la papelera. ¿Continuar?')) return;
   if(!confirm('Última confirmación: ¿de verdad borro todo?')) return;
-  eventos = []; guardar(); pintarTodo(); tostada('Agenda vacía');
+  const copia = JSON.parse(JSON.stringify(eventos));
+  copia.forEach(e => aPapelera(e, 'borrado general'));
+  eventos = []; guardar(); pintarTodo();
+  tostada('Agenda vacía', 'Deshacer', () => {
+    eventos = copia.map(normalizar);
+    papelera = papelera.filter(x => x.motivo !== 'borrado general');
+    guardar(); guardarPapelera(); pintarTodo(); tostada('Todo recuperado');
+  });
 }
 function ponerTema(oscuro){
   document.documentElement.dataset.tema = oscuro ? 'oscuro' : 'claro';
@@ -1394,23 +2290,33 @@ function cerrarHoja(){
   editandoId = null;
 }
 let temporizadorTostada = null;
-function tostada(t){
+function tostada(t, etiqueta, accion){
   const el = document.getElementById('tostada');
-  el.textContent = t; el.classList.add('ver');
+  el.innerHTML = '<span></span>';
+  el.firstChild.textContent = t;
+  if(etiqueta && accion){
+    const b = document.createElement('button');
+    b.textContent = etiqueta;
+    b.onclick = () => { el.classList.remove('ver'); accion(); };
+    el.appendChild(b);
+  }
+  el.classList.add('ver');
   clearTimeout(temporizadorTostada);
-  temporizadorTostada = setTimeout(() => el.classList.remove('ver'), 2400);
+  temporizadorTostada = setTimeout(() => el.classList.remove('ver'), etiqueta ? 6000 : 2400);
 }
 function ver(p){
   pantalla = p;
   document.querySelectorAll('.pantalla').forEach(s => s.classList.remove('viva'));
   document.getElementById('p-'+p).classList.add('viva');
-  document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.p === p));
-  document.getElementById('semana').style.display = p === 'mes' ? 'grid' : 'none';
+  document.querySelectorAll('#nav button').forEach(b => b.classList.toggle('on', b.dataset.p === (p === 'informes' ? 'mas' : p)));
+  document.getElementById('semana').style.display = (p === 'mes' && vistaCal === 'mes') ? 'grid' : 'none';
   document.getElementById('btnAtras').style.visibility = p === 'mes' ? 'visible' : 'hidden';
   document.getElementById('btnAdelante').style.visibility = p === 'mes' ? 'visible' : 'hidden';
   document.getElementById('tiras').style.display = (p === 'mes' || p === 'agenda') ? 'flex' : 'none';
-  document.getElementById('fab').style.display = p === 'mas' ? 'none' : 'grid';
-  const titulos = {agenda:'Agenda', avisos:'Avisos', mas:'Más opciones'};
+  document.getElementById('fab').style.display = (p === 'mas' || p === 'informes') ? 'none' : 'grid';
+  document.getElementById('btnAtras').style.visibility = (p === 'mes' || p === 'informes') ? 'visible' : 'hidden';
+  document.getElementById('btnAdelante').style.visibility = (p === 'mes' || p === 'informes') ? 'visible' : 'hidden';
+  const titulos = {agenda:'Agenda', avisos:'Avisos', mas:'Más opciones', informes:'Informes'};
   if(p !== 'mes') document.getElementById('tituloMes').textContent = titulos[p];
   else pintarMes();
   window.scrollTo({top:0});
@@ -1422,6 +2328,8 @@ function pintarTodo(){
   pintarFiltros();
   pintarAgenda();
   pintarAvisos();
+  if(pantalla === 'informes') pintarInformes();
+  pintarAjustes();
   document.getElementById('conteoTotal').textContent = eventos.length+' anotación'+(eventos.length===1?'':'es')+' guardada'+(eventos.length===1?'':'s');
   lanzarNotificaciones();
   programarAlarmas();
@@ -1455,6 +2363,30 @@ document.getElementById('rejilla').addEventListener('click', ev => {
   diaElegido = (diaElegido === celda.dataset.iso) ? null : celda.dataset.iso;
   pintarMes();
 });
+document.getElementById('cambiaVista').addEventListener('click', ev => {
+  const b = ev.target.closest('button'); if(!b) return;
+  cambiarVistaCal(b.dataset.v);
+});
+document.getElementById('horario').addEventListener('click', ev => {
+  const bl = ev.target.closest('.bloque, .mini-ev');
+  if(bl){ abrirDetalle(+bl.dataset.id, bl.dataset.iso); return; }
+  const cab = ev.target.closest('.hdia');
+  if(cab){ foco = cab.dataset.iso; diaElegido = foco; cambiarVistaCal('dia'); return; }
+  const col = ev.target.closest('.hcol');
+  if(col){
+    const caja = col.getBoundingClientRect();
+    const y = ev.clientY - caja.top;
+    const h = Math.max(0, Math.min(23, Math.floor(+col.dataset.ini + y / ALTO_HORA)));
+    const media = (y % ALTO_HORA) > ALTO_HORA/2 ? '30' : '00';
+    abrirForm(null, col.dataset.iso, nuevoEn(col.dataset.iso, String(h).padStart(2,'0')+':'+media));
+  }
+});
+document.getElementById('anual').addEventListener('click', ev => {
+  const dia = ev.target.closest('span[data-iso]');
+  if(dia){ foco = dia.dataset.iso; diaElegido = foco; cambiarVistaCal('dia'); return; }
+  const mm = ev.target.closest('.mini-mes');
+  if(mm){ mesVista = +mm.dataset.mes; diaElegido = null; cambiarVistaCal('mes'); }
+});
 document.getElementById('filtros').addEventListener('click', ev => {
   const b = ev.target.closest('.f'); if(!b) return;
   modoFiltro = b.dataset.f; pintarFiltros(); pintarAgenda();
@@ -1471,6 +2403,18 @@ document.getElementById('opExportar').onclick = exportarJSON;
 document.getElementById('opImportar').onclick = () => document.getElementById('archivoJSON').click();
 document.getElementById('archivoJSON').onchange = importarJSON;
 document.getElementById('opCSV').onclick = exportarCSV;
+document.getElementById('opSilencio').onclick = abrirSilencio;
+document.getElementById('opResumen').onclick = abrirResumen;
+document.getElementById('opInformes').onclick = () => ver('informes');
+document.getElementById('opPapelera').onclick = abrirPapelera;
+document.getElementById('opPin').onclick = alternarPin;
+document.getElementById('opFeriados').onclick = () => {
+  cfg.feriados = !cfg.feriados; guardarCfg(); cacheFeriados = {}; pintarAjustes(); pintarTodo();
+};
+document.getElementById('teclado').addEventListener('click', ev => {
+  const b = ev.target.closest('button'); if(!b) return;
+  teclaPin(b.dataset.a || b.textContent.trim());
+});
 document.getElementById('opICS').onclick = todoAlCalendario;
 document.getElementById('opSonido').onclick = () => ponerSonido(!conSonido());
 document.getElementById('opTitular').onclick = () => {
@@ -1511,16 +2455,29 @@ document.getElementById('opTema').onclick = () => ponerTema(document.documentEle
 })();
 
 document.addEventListener('keydown', e => { if(e.key === 'Escape') cerrarHoja(); });
-document.addEventListener('visibilitychange', () => { if(!document.hidden) pintarTodo(); });
+let salioEn = 0;
+document.addEventListener('visibilitychange', () => {
+  if(document.hidden){ salioEn = Date.now(); return; }
+  if(cfg.pin && salioEn && Date.now() - salioEn > 120000) abrirCandado('abrir');
+  pintarTodo();
+});
 
 try{ ponerTema(localStorage.getItem('agendaTema') === 'oscuro'); }catch(e){ ponerTema(false); }
 document.getElementById('swSonido').classList.toggle('on', conSonido());
 ponerTitular(titular());
+cargarCfg();
+cargarPapelera();
 cargar();
+respaldoAuto();
+foco = hoyISO();
+try{ vistaCal = localStorage.getItem('agendaVistaCal') || 'mes'; }catch(e){}
+if(cfg.pin) abrirCandado('abrir');
 fechaCargada = hoyISO();
 diaElegido = hoyISO();
 pintarPermiso();
+pintarAjustes();
 ver('mes');
+if(vistaCal !== 'mes') cambiarVistaCal(vistaCal);
 if(location.search.indexOf('nuevo=1') >= 0) setTimeout(() => abrirForm(null, hoyISO()), 500);
 
 setInterval(() => {
