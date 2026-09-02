@@ -466,6 +466,11 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
       <div class="txt"><h4>Alarmas y avisos del teléfono</h4><p id="txtPermiso">Sin activar</p></div>
       <span class="mini" id="btnPermiso">Activar</span>
     </div>
+    <div class="opcion" id="opNativo" hidden>
+      <span class="fl"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M5 3L2 6M19 3l3 3"/></svg></span>
+      <div class="txt"><h4>Alarmas del sistema</h4><p id="txtNativo">Programando…</p></div>
+      <span class="mini" id="btnExacto">Permitir</span>
+    </div>
     <div class="opcion" id="opSonido">
       <span class="fl"><svg viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M16 9a4 4 0 010 6"/><path d="M19 6a8 8 0 010 12"/></svg></span>
       <div class="txt"><h4>Alarma con sonido</h4><p>Suena y vibra al llegar la hora</p></div>
@@ -518,6 +523,11 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
       <span class="fl"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg></span>
       <div class="txt"><h4>Bloqueo con PIN</h4><p id="txtPin">Sin bloqueo</p></div>
     </div>
+    <div class="opcion" id="opHuella" hidden>
+      <span class="fl"><svg viewBox="0 0 24 24"><path d="M12 3a7 7 0 00-7 7v3"/><path d="M12 7a3 3 0 00-3 3v6"/><path d="M12 11v6"/><path d="M15 10a3 3 0 00-3-3"/><path d="M19 10a7 7 0 00-3-5.7"/><path d="M15 13v3a4 4 0 01-1 3"/><path d="M5 17a7 7 0 001 4"/></svg></span>
+      <div class="txt"><h4>Entrar con huella</h4><p id="txtHuella">No disponible</p></div>
+      <span class="interruptor" id="swHuella"></span>
+    </div>
     <div class="opcion" id="opFeriados">
       <span class="fl"><svg viewBox="0 0 24 24"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5z"/></svg></span>
       <div class="txt"><h4>Días feriados</h4><p>Marcar los feriados de El Salvador</p></div>
@@ -555,6 +565,7 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
   <h2>Agenda bloqueada</h2>
   <p id="candadoTexto">Escribe tu PIN de 4 cifras</p>
   <div class="puntos-pin" id="puntosPin"><i></i><i></i><i></i><i></i></div>
+  <button id="btnHuella" class="mini" hidden style="margin-bottom:20px;padding:11px 20px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35);color:#fff">Usar huella</button>
   <div class="teclado" id="teclado">
     <button>1</button><button>2</button><button>3</button>
     <button>4</button><button>5</button><button>6</button>
@@ -650,6 +661,8 @@ let cfg = {
   noMolestar: {activo:false, desde:'21:00', hasta:'06:30', finDeSemana:false},
   resumen:    {activo:false, hora:'07:00'},
   feriados:   true,
+  insistencia: 2,
+  huella:     false,
   horaIni:    7,
   horaFin:    20,
   pin:        ''
@@ -661,6 +674,8 @@ function cargarCfg(){
     if(c.noMolestar) Object.assign(cfg.noMolestar, c.noMolestar);
     if(c.resumen) Object.assign(cfg.resumen, c.resumen);
     if(c.feriados !== undefined) cfg.feriados = c.feriados;
+    if(c.insistencia !== undefined) cfg.insistencia = +c.insistencia;
+    if(c.huella !== undefined) cfg.huella = !!c.huella;
     if(c.horaIni !== undefined) cfg.horaIni = +c.horaIni;
     if(c.horaFin !== undefined) cfg.horaFin = +c.horaFin;
     if(c.pin !== undefined) cfg.pin = c.pin;
@@ -816,7 +831,7 @@ function ocurrenciasRango(desde, hasta){
   const salida = [];
   let d = desde;
   let guarda = 0;
-  while(d <= hasta && guarda < 800){
+  while(d <= hasta && guarda < 1200){
     ocurrenciasDia(d).forEach(o => salida.push(o));
     d = sumarDias(d, 1); guarda++;
   }
@@ -1658,6 +1673,7 @@ function ponerTitular(n){
 
 /* --- permiso --- */
 function pedirPermiso(){
+  if(esNativo()){ iniciarNativo(); tostada('Alarmas del sistema al día'); return; }
   if(!('Notification' in window)){ tostada('Este equipo no permite avisos del sistema'); return; }
   despertarAudio();
   Notification.requestPermission().then(r => {
@@ -1667,12 +1683,30 @@ function pedirPermiso(){
   });
 }
 function pintarPermiso(){
+  const fila = document.getElementById('opNativo');
+  if(esNativo()){
+    fila.hidden = false;
+    const t = document.getElementById('txtNativo');
+    const b = document.getElementById('btnExacto');
+    const cuantas = ultimaProgramacion ? ultimaProgramacion.cuantas : 0;
+    if(estadoExacto === 'granted' || estadoExacto === ''){
+      t.textContent = cuantas + ' alarma(s) programadas en el sistema';
+      b.style.display = estadoExacto === 'granted' ? 'none' : '';
+    } else {
+      t.textContent = 'Falta permitir alarmas exactas';
+      b.style.display = '';
+    }
+    document.getElementById('txtPermiso').textContent = 'Las maneja Android (versión instalada)';
+    document.getElementById('btnPermiso').style.display = 'none';
+    return;
+  }
+  fila.hidden = true;
   const p = ('Notification' in window) ? Notification.permission : 'no';
   const txt = document.getElementById('txtPermiso');
   const btn = document.getElementById('btnPermiso');
   if(p === 'granted'){
     txt.textContent = ('showTrigger' in (window.Notification ? Notification.prototype : {}))
-      ? 'Activados, con alarmas programadas' : 'Activados en este teléfono';
+      ? 'Activados, con alarmas programadas' : 'Activados mientras la app esté abierta';
     btn.style.display = 'none';
   }
   else if(p === 'denied'){ txt.textContent = 'Bloqueados. Actívalos en los ajustes del teléfono'; btn.style.display = 'none'; }
@@ -1753,7 +1787,12 @@ function momentoHora(e, iso){
   f.setHours(+p[0]||0, +p[1]||0, 0, 0);
   return f;
 }
+let reprogramarNativoPronto = null;
 function programarAlarmas(){
+  if(esNativo()){
+    clearTimeout(reprogramarNativoPronto);
+    reprogramarNativoPronto = setTimeout(programarNativas, 1200);
+  }
   temporizadores.forEach(t => clearTimeout(t));
   temporizadores = [];
   const ahora = Date.now();
@@ -1839,7 +1878,8 @@ function dispararAlarma(id, iso, motivo){
   notificar(TIPOS[e.tipo] + ' · ' + rotulo,
     e.titulo + (e.hora ? ' — ' + hora12(e.hora) : '') + (e.lugar ? '\n' + e.lugar : ''),
     'a' + id + iso + motivo, {id: id, iso: iso});
-  if(!enSilencio()){ vibrar(); sonar(); }
+  if(!enSilencio() && !esNativo()){ vibrar(); sonar(); }
+  if(esNativo()) cancelarHermanas(id, iso);
   mostrarAlarma(e, iso, rotulo);
   pintarTiras(); pintarAvisos();
 }
@@ -1953,6 +1993,284 @@ function alCalendario(id, iso){
 function todoAlCalendario(){
   if(!eventos.length){ tostada('No hay nada que pasar'); return; }
   exportarICS(eventos, 'agenda_' + hoyISO() + '.ics');
+}
+
+/* ---------- 10a. ALARMAS NATIVAS DE ANDROID (APK) ----------
+   Cuando la agenda corre dentro del APK hecho con Capacitor, las alarmas
+   las programa el propio Android: suenan con la aplicación cerrada,
+   sobreviven al reinicio del teléfono y traen botones de acción. */
+let estadoExacto = '';
+let ultimaProgramacion = null;
+
+function esNativo(){
+  return !!(window.Capacitor && typeof window.Capacitor.isNativePlatform === 'function' && window.Capacitor.isNativePlatform());
+}
+function plug(nombre){
+  return (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins[nombre]) || null;
+}
+function rotuloAlarma(t, iso, hora, motivo){
+  if(motivo === 'hora') return 'es la hora';
+  const dif = diasEntre(fechaISO(new Date(t)), iso);
+  if(dif < 0) return 'se pasó';
+  if(dif === 0) return 'es hoy' + (hora ? ' a las ' + hora12(hora) : '');
+  if(dif === 1) return 'es mañana' + (hora ? ' a las ' + hora12(hora) : '');
+  return 'faltan ' + dif + ' días';
+}
+
+async function iniciarNativo(){
+  /* Las notificaciones de Capacitor son el respaldo: si no están,
+     el resto del arranque nativo debe seguir igual. */
+  const LN = plug('LocalNotifications');
+  if(LN){
+    try{
+      await LN.createChannel({id:'alarmas', name:'Alarmas de la agenda',
+        description:'Avisos con sonido de alarma', importance:5, sound:'alarma.wav',
+        vibration:true, visibility:1, lights:true, lightColor:'#E9D09C'});
+      await LN.createChannel({id:'silencio', name:'Avisos en silencio',
+        description:'Avisos dentro de las horas de silencio', importance:3, vibration:false, visibility:1});
+      await LN.registerActionTypes({types:[{id:'AGENDA', actions:[
+        {id:'hecho', title:'Ya lo hice'},
+        {id:'posponer', title:'Posponer 10 min'}
+      ]}]});
+    }catch(e){}
+    try{
+      let per = await LN.checkPermissions();
+      if(per.display !== 'granted') per = await LN.requestPermissions();
+    }catch(e){}
+    try{
+      if(LN.checkExactNotificationSetting){
+        const ex = await LN.checkExactNotificationSetting();
+        estadoExacto = ex.exact_alarm || '';
+      }
+    }catch(e){}
+    try{
+      LN.addListener('localNotificationActionPerformed', ev => accionNativa(ev));
+      LN.addListener('localNotificationReceived', () => setTimeout(() => { pintarTiras(); pintarAvisos(); }, 500));
+    }catch(e){}
+  }
+  const App = plug('App');
+  if(App){
+    try{
+      App.addListener('resume', () => { pintarTodo(); revisarRespuestaAlarma(); programarNativas(); });
+      App.addListener('pause', () => { programarNativas(); });
+    }catch(e){}
+  }
+  await programarNativas();
+  await revisarRespuestaAlarma();
+  await revisarHuella();
+  if(cfg.pin && cfg.huella && document.getElementById('candado').classList.contains('ver')) intentarHuella();
+  pintarPermiso();
+}
+
+function abrirAlarmasSistema(){
+  const P = plug('AlarmaNativa');
+  const u = ultimaProgramacion || {};
+  const prox = (u.proxima && u.proxima > 0)
+    ? bonita(fechaISO(new Date(u.proxima))) + ' a las ' + hora12(String(new Date(u.proxima).getHours()).padStart(2,'0')+':'+String(new Date(u.proxima).getMinutes()).padStart(2,'0'))
+    : 'no hay ninguna pendiente';
+  document.getElementById('hojaTitulo').textContent = 'Alarmas del sistema';
+  document.getElementById('hojaCuerpo').innerHTML =
+    '<div class="caja-alerta" style="border-left-color:var(--t-personal)">'+
+      '<p style="margin:0 0 6px"><b>Alarmas guardadas:</b> '+(u.cuantas || 0)+'</p>'+
+      '<p style="margin:0 0 6px"><b>La próxima:</b> '+prox+'</p>'+
+      '<p style="margin:0"><b>Alarmas exactas:</b> '+(estadoExacto === 'granted' ? 'permitidas' : 'falta permitirlas')+'</p>'+
+    '</div>'+
+    '<p class="nota" style="margin:0 0 14px">'+(P
+      ? 'Android guarda la lista completa y mantiene armada la siguiente. Al sonar una, arma la que sigue, así que no importa cuánto tiempo pase sin abrir la agenda.'
+      : 'Las alarmas se programan de a lotes cada vez que abres la aplicación.')+'</p>'+
+    '<div class="acciones">'+
+      '<button class="btn principal" onclick="pedirAlarmaExacta()">Permitir alarmas exactas</button>'+
+    '</div>'+
+    '<div class="acciones">'+
+      '<button class="btn" onclick="pedirBateria()">Quitar el ahorro de batería</button>'+
+    '</div>'+
+    '<p class="nota">El ahorro de batería es la causa más común de que una alarma se atrase. Si su teléfono es Xiaomi, Huawei, Oppo o similar, conviene además marcar la Agenda como aplicación protegida en los ajustes del teléfono.</p>'+
+    '<div class="acciones"><button class="btn" onclick="cerrarHoja()">Cerrar</button></div>';
+  abrirHoja();
+}
+async function pedirBateria(){
+  const P = plug('AlarmaNativa');
+  if(P && P.permitirBateria){ try{ await P.permitirBateria(); }catch(e){} }
+  else tostada('Disponible solo en la aplicación instalada');
+}
+
+async function pedirAlarmaExacta(){
+  const P = plug('AlarmaNativa');
+  if(P && P.permitirExactas){
+    try{
+      await P.permitirExactas();
+      const st = await P.estado();
+      estadoExacto = st && st.exactas ? 'granted' : 'falta';
+      ultimaProgramacion = {cuando: Date.now(), cuantas: st ? st.cuantas : 0, proxima: st ? st.proxima : 0};
+      pintarPermiso(); programarNativas();
+    }catch(e){}
+    return;
+  }
+  const LN = plug('LocalNotifications'); if(!LN) return;
+  try{
+    if(LN.changeExactNotificationSetting) await LN.changeExactNotificationSetting();
+    if(LN.checkExactNotificationSetting){
+      const ex = await LN.checkExactNotificationSetting();
+      estadoExacto = ex.exact_alarm || '';
+    }
+    pintarPermiso(); programarNativas();
+  }catch(e){ tostada('Abre los ajustes del teléfono y permite las alarmas exactas'); }
+}
+
+/* Reúne los momentos en que algo debe sonar dentro de un rango de días. */
+function puntosDeAlarma(dias){
+  const hoy = hoyISO();
+  const puntos = [];
+  ocurrenciasRango(hoy, sumarDias(hoy, dias)).forEach(({e, iso}) => {
+    if(estaHecho(e, iso)) return;
+    alarmasDe(e).forEach(a => { const m = momentoDe(e, iso, a); if(m) puntos.push({t: m.getTime(), e: e, iso: iso, motivo: 'aviso'}); });
+    if(e.hora && e.alarmaHora !== false){ const m = momentoHora(e, iso); if(m) puntos.push({t: m.getTime(), e: e, iso: iso, motivo: 'hora'}); }
+    const pos = (e.pospuesto || {})[iso];
+    if(pos) puntos.push({t: pos, e: e, iso: iso, motivo: 'pospuesto'});
+  });
+  return puntos;
+}
+
+/* ----- Alarmas encadenadas (plugin propio del APK) -----
+   Se le entrega a Android la lista completa de los próximos dos años.
+   Android solo mantiene armada la siguiente; al sonar, arma la que sigue.
+   Por eso no importa cuánto tiempo pase sin abrir la aplicación. */
+async function programarCadena(){
+  const P = plug('AlarmaNativa'); if(!P) return;
+  const ahora = Date.now();
+  const veces = 1 + Math.max(0, Math.min(3, cfg.insistencia || 0));
+  const tope = Math.floor(900 / veces);
+  const alarmas = [];
+  puntosDeAlarma(730)
+    .filter(x => x.t > ahora + 15000)
+    .sort((a,b) => a.t - b.t)
+    .slice(0, tope)
+    .forEach(x => {
+      for(let k = 0; k < veces; k++){
+        const t = x.t + k*60000;
+        alarmas.push({
+          t: t,
+          titulo: TIPOS[x.e.tipo] + ' · ' + rotuloAlarma(t, x.iso, x.e.hora, x.motivo),
+          cuerpo: x.e.titulo + (x.e.hora ? ' — ' + hora12(x.e.hora) : '') + (x.e.lugar ? ' · ' + x.e.lugar : ''),
+          eid: x.e.id,
+          iso: x.iso,
+          motivo: x.motivo,
+          silencio: enSilencio(new Date(t))
+        });
+      }
+    });
+  try{
+    const r = await P.programar({alarmas: alarmas});
+    ultimaProgramacion = {cuando: Date.now(), cuantas: (r && r.cuantas) || alarmas.length, proxima: r && r.proxima};
+    estadoExacto = (r && r.exactas) ? 'granted' : 'falta';
+    pintarPermiso();
+  }catch(e){ tostada('Android no dejó programar las alarmas'); }
+}
+
+/* Recoge lo que el usuario respondió en la pantalla de alarma. */
+async function revisarRespuestaAlarma(){
+  const P = plug('AlarmaNativa'); if(!P) return;
+  try{
+    const r = await P.pendiente();
+    if(!r || !r.accion) return;
+    const d = JSON.parse(r.accion);
+    const e = eventos.find(x => x.id === +d.eid);
+    if(!e) return;
+    if(d.accion === 'hecho'){
+      if(!estaHecho(e, d.iso)){ alternarHecho(e, d.iso); }
+      tostada('Marcado como cumplido');
+    } else if(d.accion === 'posponer'){
+      e.pospuesto = e.pospuesto || {};
+      e.pospuesto[d.iso] = Date.now() + 600000;
+      guardar(); pintarTodo();
+      tostada('Vuelve a sonar en 10 minutos');
+    } else {
+      abrirDetalle(+d.eid, d.iso);
+    }
+  }catch(e){}
+}
+
+/* Programa en Android las alarmas. Si está el plugin propio usa la cadena;
+   si no, recurre a las notificaciones programadas de Capacitor. */
+async function programarNativas(){
+  if(plug('AlarmaNativa')) return programarCadena();
+  const LN = plug('LocalNotifications'); if(!LN) return;
+  try{
+    const previas = JSON.parse(localStorage.getItem('agendaIdsNativos') || '[]');
+    if(previas.length) await LN.cancel({notifications: previas.map(id => ({id: id}))});
+  }catch(e){}
+
+  const ahora = Date.now();
+  const puntos = puntosDeAlarma(75);
+
+  const lista = [];
+  const mapa = {};
+  let id = 1;
+  const veces = 1 + Math.max(0, Math.min(3, cfg.insistencia || 0));
+  const tope = Math.max(25, Math.floor(180 / veces));   // Android no admite miles de alarmas
+  puntos.filter(x => x.t > ahora + 20000).sort((a,b) => a.t - b.t).slice(0, tope).forEach(x => {
+    for(let k = 0; k < veces; k++){
+      const t = x.t + k*60000;
+      const callado = enSilencio(new Date(t));
+      const nid = id++;
+      mapa[nid] = {eid: x.e.id, iso: x.iso};
+      const n = {
+        id: nid,
+        title: TIPOS[x.e.tipo] + ' · ' + rotuloAlarma(t, x.iso, x.e.hora, x.motivo),
+        body: x.e.titulo + (x.e.hora ? ' — ' + hora12(x.e.hora) : '') + (x.e.lugar ? '\n' + x.e.lugar : ''),
+        schedule: {at: new Date(t), allowWhileIdle: true},
+        channelId: callado ? 'silencio' : 'alarmas',
+        smallIcon: 'ic_stat_agenda',
+        actionTypeId: 'AGENDA',
+        autoCancel: true,
+        extra: {eid: x.e.id, iso: x.iso, motivo: x.motivo}
+      };
+      if(!callado) n.sound = 'alarma.wav';
+      lista.push(n);
+    }
+  });
+  /* aviso de mantenimiento: si la agenda no se abre en dos meses,
+     las alarmas más lejanas nunca se habrían programado */
+  lista.push({
+    id: id++, title: 'Abre la agenda',
+    body: 'Ábrela un momento para dejar programadas las alarmas de las próximas semanas.',
+    schedule: {at: new Date(ahora + 60*86400000), allowWhileIdle: true},
+    channelId: 'silencio', smallIcon: 'ic_stat_agenda', extra: {}
+  });
+
+  try{
+    if(lista.length) await LN.schedule({notifications: lista});
+    localStorage.setItem('agendaIdsNativos', JSON.stringify(lista.map(n => n.id)));
+    localStorage.setItem('agendaMapaNativo', JSON.stringify(mapa));
+    ultimaProgramacion = {cuando: Date.now(), cuantas: lista.length - 1};
+    pintarPermiso();
+  }catch(e){ tostada('Android no dejó programar las alarmas'); }
+}
+
+async function cancelarHermanas(eid, iso){
+  const LN = plug('LocalNotifications'); if(!LN) return;
+  try{
+    const mapa = JSON.parse(localStorage.getItem('agendaMapaNativo') || '{}');
+    const ids = Object.keys(mapa).filter(k => mapa[k].eid === eid && mapa[k].iso === iso).map(Number);
+    if(ids.length) await LN.cancel({notifications: ids.map(x => ({id: x}))});
+  }catch(e){}
+}
+function accionNativa(ev){
+  const extra = (ev && ev.notification && ev.notification.extra) || {};
+  if(!extra.eid) return;
+  const e = eventos.find(x => x.id === extra.eid);
+  if(!e) return;
+  cancelarHermanas(extra.eid, extra.iso);
+  if(ev.actionId === 'hecho'){
+    alternarHecho(e, extra.iso);
+    tostada('Marcado como cumplido');
+  } else if(ev.actionId === 'posponer'){
+    posponer(extra.eid, extra.iso, 10);
+  } else {
+    cerrarAlarma();
+    abrirDetalle(extra.eid, extra.iso);
+  }
+  programarNativas();
 }
 
 /* ---------- 10b. INFORMES ---------- */
@@ -2080,16 +2398,70 @@ async function huella(txt){
   }catch(e){}
   return 'simple:'+txt;
 }
+let huellaLista = false;
+function plugBio(){ return plug('Biometria'); }
+
+async function revisarHuella(){
+  const B = plugBio();
+  const fila = document.getElementById('opHuella');
+  if(!B){ fila.hidden = true; huellaLista = false; return; }
+  try{
+    const r = await B.disponible();
+    huellaLista = !!(r && r.disponible);
+  }catch(e){ huellaLista = false; }
+  fila.hidden = !huellaLista;
+  pintarAjustes();
+}
+
+function alternarHuella(){
+  if(!huellaLista){ tostada('Este teléfono no tiene huella configurada'); return; }
+  if(cfg.huella){
+    cfg.huella = false; guardarCfg(); pintarAjustes();
+    tostada('Se entrará solo con el PIN');
+    return;
+  }
+  if(!cfg.pin){
+    tostada('Primero pon un PIN de respaldo');
+    setTimeout(() => abrirCandado('nuevo'), 600);
+    return;
+  }
+  cfg.huella = true; guardarCfg(); pintarAjustes();
+  tostada('Listo: la agenda pedirá tu huella');
+}
+
+async function intentarHuella(){
+  const B = plugBio();
+  if(!B || !cfg.huella) return;
+  const btn = document.getElementById('btnHuella');
+  try{
+    const r = await B.verificar({titulo:'Agenda bloqueada', subtitulo:'Confirma que eres tú para entrar'});
+    if(r && r.ok){
+      document.getElementById('candado').classList.remove('ver');
+      pinEscrito = ''; pintarPuntos();
+      return;
+    }
+    document.getElementById('candadoTexto').textContent = 'Usa tu PIN o vuelve a intentar la huella';
+    if(btn) btn.hidden = false;
+  }catch(e){
+    if(btn) btn.hidden = false;
+  }
+}
+
 let pinEscrito = '', pinModo = 'abrir', pinNuevo = '';
 function pintarPuntos(){
   document.querySelectorAll('#puntosPin i').forEach((el,i) => el.classList.toggle('on', i < pinEscrito.length));
 }
 function abrirCandado(modo){
   pinModo = modo; pinEscrito = ''; pinNuevo = '';
-  document.getElementById('candadoTexto').textContent =
-    modo === 'abrir' ? 'Escribe tu PIN de 4 cifras' : 'Elige un PIN de 4 cifras';
+  const conHuella = (modo === 'abrir' && cfg.huella && plugBio());
+  document.getElementById('candadoTexto').textContent = conHuella
+    ? 'Pon tu huella, o escribe el PIN'
+    : (modo === 'abrir' ? 'Escribe tu PIN de 4 cifras' : 'Elige un PIN de 4 cifras');
+  const btn = document.getElementById('btnHuella');
+  if(btn) btn.hidden = !conHuella;
   document.getElementById('candado').classList.add('ver');
   pintarPuntos();
+  if(conHuella) setTimeout(intentarHuella, 450);
 }
 async function teclaPin(t){
   if(t === 'borrar'){ pinEscrito = pinEscrito.slice(0,-1); pintarPuntos(); return; }
@@ -2131,7 +2503,7 @@ async function validarPin(){
 function alternarPin(){
   if(cfg.pin){
     if(!confirm('¿Quitar el bloqueo con PIN?')) return;
-    cfg.pin = ''; guardarCfg(); pintarAjustes(); tostada('Bloqueo quitado');
+    cfg.pin = ''; cfg.huella = false; guardarCfg(); pintarAjustes(); tostada('Bloqueo quitado');
   } else abrirCandado('nuevo');
 }
 
@@ -2146,18 +2518,25 @@ function abrirSilencio(){
       '<div class="campo"><label>Hasta</label><input type="time" id="s_hasta" value="'+n.hasta+'"></div>'+
     '</div>'+
     '<label class="linea-check"><input type="checkbox" id="s_finde" '+(n.finDeSemana?'checked':'')+'> Sonar también sábados y domingos</label>'+
+    '<div class="campo" style="margin-top:16px"><label>Si no atiendo la alarma</label><select id="s_insiste">'+
+      [[0,'Sonar una sola vez'],[1,'Repetir una vez, un minuto después'],[2,'Repetir dos veces'],[3,'Repetir tres veces']]
+        .map(([v,t]) => '<option value="'+v+'" '+((cfg.insistencia||0)==v?'selected':'')+'>'+t+'</option>').join('')+
+    '</select></div>'+
     '<div class="acciones"><button class="btn" onclick="cerrarHoja()">Cancelar</button>'+
       '<button class="btn principal" onclick="guardarSilencio()">Guardar</button></div>';
   abrirHoja();
 }
 function guardarSilencio(){
+  cfg.insistencia = +document.getElementById('s_insiste').value;
   cfg.noMolestar = {
     activo: document.getElementById('s_activo').checked,
     desde: document.getElementById('s_desde').value || '21:00',
     hasta: document.getElementById('s_hasta').value || '06:30',
     finDeSemana: document.getElementById('s_finde').checked
   };
-  guardarCfg(); cerrarHoja(); pintarAjustes(); tostada('Horas de silencio guardadas');
+  guardarCfg(); cerrarHoja(); pintarAjustes();
+  if(esNativo()) programarNativas();
+  tostada('Alarmas actualizadas');
 }
 function abrirResumen(){
   document.getElementById('hojaTitulo').textContent = 'Resumen del día';
@@ -2183,7 +2562,14 @@ function pintarAjustes(){
     ? 'Todos los días a las '+hora12(cfg.resumen.hora) : 'Apagado';
   document.getElementById('txtPapelera').textContent = papelera.length
     ? papelera.length+' anotación(es) recuperable(s)' : 'Nada borrado';
-  document.getElementById('txtPin').textContent = cfg.pin ? 'Activado' : 'Sin bloqueo';
+  document.getElementById('txtPin').textContent = cfg.pin
+    ? (cfg.huella ? 'Activado, con huella' : 'Activado') : 'Sin bloqueo';
+  const th = document.getElementById('txtHuella');
+  if(th){
+    th.textContent = !huellaLista ? 'No disponible en este teléfono'
+      : (cfg.huella ? 'Activada, con el PIN de respaldo' : 'Apagada');
+    document.getElementById('swHuella').classList.toggle('on', !!cfg.huella && huellaLista);
+  }
   document.getElementById('swFeriados').classList.toggle('on', !!cfg.feriados);
 }
 
@@ -2408,9 +2794,13 @@ document.getElementById('opResumen').onclick = abrirResumen;
 document.getElementById('opInformes').onclick = () => ver('informes');
 document.getElementById('opPapelera').onclick = abrirPapelera;
 document.getElementById('opPin').onclick = alternarPin;
+document.getElementById('opHuella').onclick = alternarHuella;
+document.getElementById('btnHuella').onclick = ev => { ev.stopPropagation(); intentarHuella(); };
 document.getElementById('opFeriados').onclick = () => {
   cfg.feriados = !cfg.feriados; guardarCfg(); cacheFeriados = {}; pintarAjustes(); pintarTodo();
 };
+document.getElementById('btnExacto').onclick = ev => { ev.stopPropagation(); pedirAlarmaExacta(); };
+document.getElementById('opNativo').onclick = abrirAlarmasSistema;
 document.getElementById('teclado').addEventListener('click', ev => {
   const b = ev.target.closest('button'); if(!b) return;
   teclaPin(b.dataset.a || b.textContent.trim());
@@ -2497,7 +2887,13 @@ if('serviceWorker' in navigator){
   });
 }
 
-if('serviceWorker' in navigator && location.protocol.startsWith('http')){
+if(esNativo()){
+  iniciarNativo();
+} else if(window.Capacitor){
+  document.addEventListener('deviceready', iniciarNativo, {once:true});
+}
+
+if(!esNativo() && 'serviceWorker' in navigator && location.protocol.startsWith('http')){
   navigator.serviceWorker.register('sw.js')
     .then(() => { setTimeout(programarAlarmas, 1500); })
     .catch(() => {});
