@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Agenda — Calendario de actividades</title>
+<title>NexaPlan — Calendario de actividades</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <style>
@@ -542,7 +542,7 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
       <div class="txt"><h4 style="color:var(--rojo)">Borrar toda la agenda</h4><p>No se puede deshacer</p></div>
     </div>
     <input type="file" id="archivoJSON" accept=".json,application/json" hidden>
-    <p class="pie-app">Agenda · calendario de actividades<br><span id="conteoTotal"></span></p>
+    <p class="pie-app">NexaPlan · agenda, tareas y recordatorios<br><span id="conteoTotal"></span></p>
   </section>
 </main>
 
@@ -591,7 +591,7 @@ html[data-tema="oscuro"] #nav button.on{color:var(--oro-claro)}
 
 <script>
 /* =========================================================
-   AGENDA — Calendario de actividades
+   NEXAPLAN — Calendario de actividades
    Aplicación para teléfono. Todo se guarda en el propio equipo.
    ========================================================= */
 
@@ -1673,6 +1673,12 @@ function ponerTitular(n){
 
 /* --- permiso --- */
 function pedirPermiso(){
+  if(window.AndroidAgenda){
+    try{ window.AndroidAgenda.requestNotificationPermission(); }catch(e){}
+    setTimeout(() => { pintarPermiso(); programarAlarmas(); }, 700);
+    tostada('Permiso de avisos solicitado a Android');
+    return;
+  }
   if(esNativo()){ iniciarNativo(); tostada('Alarmas del sistema al día'); return; }
   if(!('Notification' in window)){ tostada('Este equipo no permite avisos del sistema'); return; }
   despertarAudio();
@@ -1684,6 +1690,14 @@ function pedirPermiso(){
 }
 function pintarPermiso(){
   const fila = document.getElementById('opNativo');
+  if(window.AndroidAgenda){
+    fila.hidden = true;
+    let ok = true;
+    try{ ok = !!window.AndroidAgenda.hasNotificationPermission(); }catch(e){}
+    document.getElementById('txtPermiso').textContent = ok ? 'Avisos de NexaPlan activados en Android' : 'Falta permitir notificaciones';
+    document.getElementById('btnPermiso').style.display = ok ? 'none' : '';
+    return;
+  }
   if(esNativo()){
     fila.hidden = false;
     const t = document.getElementById('txtNativo');
@@ -1759,6 +1773,20 @@ async function registroSW(){
   }catch(e){ return null; }
 }
 async function notificar(titulo, cuerpo, etiqueta, datos, cuando){
+  /* APK Android de NexaPlan: usa el puente nativo incluido en la aplicación. */
+  if(window.AndroidAgenda){
+    try{
+      const d = JSON.stringify(datos || {});
+      if(cuando){
+        window.AndroidAgenda.scheduleNotification(titulo, cuerpo, etiqueta || '', d, Math.round(cuando));
+      }else{
+        window.AndroidAgenda.showNotification(titulo, cuerpo, etiqueta || '', d);
+      }
+      return true;
+    }catch(e){}
+  }
+
+  /* Versión web/PWA. */
   if(!('Notification' in window) || Notification.permission !== 'granted') return false;
   const op = {
     body: cuerpo, tag: etiqueta, renotify: true, requireInteraction: true,
@@ -1842,7 +1870,7 @@ function programarResumen(){
   if(t <= Date.now()) t += 86400000;
   const espera = t - Date.now();
   if(espera < 26*3600*1000) tempResumen = setTimeout(() => { enviarResumen(); programarResumen(); }, espera);
-  if('showTrigger' in (window.Notification ? Notification.prototype : {})) programarResumenSistema(t);
+  if(window.AndroidAgenda || ('showTrigger' in (window.Notification ? Notification.prototype : {}))) programarResumenSistema(t);
 }
 function textoResumen(iso){
   const lista = ocurrenciasDia(iso).filter(o => !estaHecho(o.e, o.iso));
@@ -1863,6 +1891,15 @@ function programarResumenSistema(t){
     textoResumen(iso), 'resumenP' + iso, {}, t);
 }
 function programarEnSistema(e, iso, t, motivo){
+  /* En la APK, AndroidAgenda programa el aviso aunque la app esté cerrada. */
+  if(window.AndroidAgenda){
+    notificar(
+      TIPOS[e.tipo] + (motivo === 'hora' ? ' · es la hora' : ' · recordatorio'),
+      e.titulo + (e.hora ? ' — ' + hora12(e.hora) : '') + (e.lugar ? '\n' + e.lugar : ''),
+      'p' + e.id + iso + motivo, {id: e.id, iso: iso}, t
+    );
+    return;
+  }
   if(!('Notification' in window) || Notification.permission !== 'granted') return;
   if(!('showTrigger' in Notification.prototype)) return;
   notificar(
@@ -2586,7 +2623,7 @@ function bajarArchivo(nombre, contenido, tipo){
   }catch(err){ copiar(contenido, 'No se pudo bajar el archivo; se copió el contenido'); }
 }
 function exportarJSON(){
-  const datos = {version:1, app:'Agenda', titular:titular(), generado:new Date().toISOString(), eventos};
+  const datos = {version:1, app:'NexaPlan', titular:titular(), generado:new Date().toISOString(), eventos};
   bajarArchivo('agenda_respaldo_'+hoyISO()+'.json', JSON.stringify(datos, null, 2), 'application/json');
 }
 function importarJSON(ev){
